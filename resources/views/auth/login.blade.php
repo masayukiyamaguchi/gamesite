@@ -7,7 +7,7 @@
 <!--
 if　$auth!=true
 <p>ブログの登録にはオーナー認証が必要です</p>
-endif 
+endif
 -->
 
 
