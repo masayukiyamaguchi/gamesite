@@ -236,5 +236,66 @@ h3{
     margin-top: -15px;
 }
 
+.edit_button{
+    width: 100px;
+    margin-right: 20px;
+}
+
+.delete_button{
+    width: 100px;
+}
 
 
+
+.blogedit img{
+    width: 800px;
+
+}
+
+.blogedit{
+    text-align: center;
+}
+
+.h3input{
+    width: 800px;
+    color: red;
+}
+
+
+.blogedittable{
+    width: 100%;
+}
+
+.blogedittable img{
+    width: 450px;
+    margin-bottom: 0px;
+}
+
+.blogedittable p{
+    margin-top: 0px;
+    margin-bottom: 50px;
+    
+}
+
+.edittextarea{
+    width: 450px;
+    height: 100px;
+    margin-top: -50px;
+}
+
+.edit_edit_button{
+    margin-top: 10px;
+    margin-bottom: 20px;
+    
+}
+
+.samneil_edit{
+    display: none;
+}
+
+.submit_blogedit{
+    margin-top: 50px;
+    width: 200px;
+    height: 80px;
+    font-size: 20px;
+}

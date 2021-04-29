@@ -27,7 +27,6 @@
     @endforeach
 @endif
 
-
 <div class="form">
     <form action="/blog/postdone/" method="post" enctype="multipart/form-data">
         @csrf

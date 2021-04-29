@@ -24,7 +24,7 @@
 
 
 <!-- 記事内容掲載ループ -->
-
+{{ csrf_field() }}
 
 <!-- 記事を表示 -->
 <!-- どうしても配列の[0]番目に配列として入ってしまう。単体の配列として受け取れないの？？ -->
@@ -55,9 +55,14 @@
                 <td><p>{{$blogs['comment04']}}</p></td>
             </tr>
         </table>
-        
-       
 
+            <a href="/blog/edit/{{$blogs['name']}}">
+                <button class="edit_button" type="button">Edit</button>
+            </a>
+
+            <a href="/blog/delete/{{$blogs['name']}}" onclick="return confirm('記事を削除します。よろしいですか？');">
+                <button class="delete_button" type="button">Delete</button>
+            </a>
 
     </div>
 </div>

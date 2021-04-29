@@ -16,7 +16,7 @@ class FormColntroller extends Controller
             "name" => "required",
             "email" => "required|email",
             //必須ではなくて良い場合？ 下記の記述ではうまく行かなかった。
-            // "job[]" => "required",
+            //"job[]" => "required",
             "playtime" => "required",
             "content" => "required",
  
@@ -33,6 +33,7 @@ class FormColntroller extends Controller
         //この辺どう入れておくのが最適！？(チェックボックス)
         //job_.$job=1; では通らなかった。文字列と追加したい場合は？？
         //空でもいい場合に、エラーとなる
+            
         foreach($_POST["job"] as $job):
             $contact->$job=1;
         endforeach;

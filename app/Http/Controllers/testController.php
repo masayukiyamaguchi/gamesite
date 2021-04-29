@@ -38,6 +38,5 @@ class TestController extends Controller
         return view("test",["all_scs"=>$alldata]);
     }
 
-    
-}
 
+}
