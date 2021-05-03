@@ -16,7 +16,7 @@ class FormColntroller extends Controller
             "name" => "required",
             "email" => "required|email",
             //必須ではなくて良い場合？ 下記の記述ではうまく行かなかった。
-            //"job[]" => "required",
+            "job" => "required",
             "playtime" => "required",
             "content" => "required",
  
