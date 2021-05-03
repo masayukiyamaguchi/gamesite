@@ -1,7 +1,8 @@
 @extends("layouts.app")
 
-@section("title","blog")
+<script src="{{asset('/js/change_img.js') }}"></script>
 
+@section("title","blog")
 @include("layouts.header")
 
 <!-- ヘッダー部分 -->
@@ -37,7 +38,8 @@
         <input type="text" name="title">
 
         <p>【サムネイル】</p>
-        <input type="file" name="samneil">
+        <input type="file" name="samneil" accept='image/*'onchange=" previewImage(this);">
+        <img id="preview" src="/images/1px.png" style="max-width:200px;">
 
         <p>【画像1】</p>
         <input type="file" name="image01">

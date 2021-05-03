@@ -11,9 +11,8 @@ use App\Screenshot;
 class TestController extends Controller
 {
     public function index(){
-        $view = view("test");
-        $view->now_date = date("Y年m月d日 H時i分s秒"); //->をどの様に考えればいいか？
-        return $view;
+        return view("test");
+
     }
 
     public function sum($x,$y){

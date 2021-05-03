@@ -1,5 +1,7 @@
 @extends("layouts.app")
 
+<script src="{{asset('/js/change_img.js') }}"></script>
+
 @section("title","blog")
 
 @include("layouts.header")
@@ -38,10 +40,12 @@
     <div>
 
         <!-- メインビジュアルのエディット部分 -->
-       <img src="/storage/images/{{$editblog['samneil']}}">
+       <img id="preview" src="/storage/images/{{$editblog['samneil']}}">
         <p>
-            <input class="edit_edit_button" type="file" name="samneil">            
+            <input class="edit_edit_button" type="file" name="samneil" accept='image/*' onchange="previewImage(this);">            
         </p>
+
+
 
        <h2>ワンポイント攻略解説！</h2>
     
