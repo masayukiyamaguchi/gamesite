@@ -45,8 +45,6 @@
             <input class="edit_edit_button" type="file" name="samneil" accept='image/*' onchange="previewImage(this);">            
         </p>
 
-
-
        <h2>ワンポイント攻略解説！</h2>
     
        <table class="blogedittable">

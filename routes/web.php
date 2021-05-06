@@ -34,8 +34,6 @@ Route::get('/blog/edit/{name}',"BlogEditController@index")->name("blog.edit");
 Route::post('/blog/posteditdone/{name}',"PostDoneController@edit")->name("blog.editdone");
 Route::get('/blog/delete/{name}',"BlogDeleteController@index")->name("blog.delete");
 
-
-
 //コンタクト
 Route::get('/contact/', function () {
     return view('contact.index');
@@ -43,6 +41,8 @@ Route::get('/contact/', function () {
 Route::post('/contact/form/',"FormColntroller@index")->name("contact.form");
 Route::get('/contact/lists/',"ContactLists@index")->name("contactlists");
 
+//装備シミュレーター
+Route::get('/gear/',"GearController@index")->name("gear");
 
 
 //テスト用

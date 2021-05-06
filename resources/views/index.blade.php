@@ -27,6 +27,15 @@
 <div class="inside">
 
 <div>
+<h1>装備シミュレータ</h1>
+</div>
+<div class="container">
+<a href="{{route('gear')}}" class="btn-denim">ここから！</a>
+</div>
+
+
+
+<div>
 <h1>PLAY JOB</h1>
 </div>
 

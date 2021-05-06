@@ -299,3 +299,176 @@ h3{
     height: 80px;
     font-size: 20px;
 }
+
+
+/* ここから下がボタンのCSS　*/
+.container{
+    text-align: center;
+}
+
+.btn-denim {
+    margin-top: 10px;
+    display: inline-block;
+    max-width: 180px;
+    background-color: #293b6a;
+    font-size: 16px;
+    color: #FFF;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 16px;
+    border: 1px dashed #FFF;
+    box-shadow: 0px 0px 0px 5px #293b6a;/* box-shadowで外枠を */
+  }
+  
+  .btn-denim:hover {
+    border-style: solid;
+  }
+
+/* ボタンデザイン ここまで*/
+
+/* シミュレーターページ */
+.footer_simu {
+    --contentWidth: 1800px;
+    padding: 1rem 5rem;
+}
+
+.inside_simu {
+    max-width: var(--contentWidth);
+    margin: 0 auto;
+}
+
+/* カラム設定 */
+#lbox{
+    float: left;
+    width: 35%;
+}
+#cbox{
+    float: left;
+    width: 20%;
+}
+#rbox{
+
+}
+
+
+
+.select_job_div{
+    margin-bottom: 15px;
+}
+.select_job{
+    width: 150px;
+}
+.select_race{
+    width: 200px;
+}
+
+/* 色 */
+.wep_bg_pro{
+    background-color: rgb(255, 226, 226);
+    width: 95%;
+}
+.arm_bg_pro{
+    background-color: rgb(226, 244, 255);
+    width: 95%;
+}
+.acc_bg_pro{
+    background-color: rgb(232, 255, 226);
+    width: 95%;
+}
+.mea_bg_pro{
+    background-color: rgb(255, 242, 226);
+    width: 95%;
+}
+
+.select_wep{
+    width: 250px;
+}
+
+/* 各項目の大枠 */
+.select_wep_div{
+    width: 570px;
+}
+.select_sld_div{
+    width: 570px;
+}
+.select_arm_div{
+    margin-top: -10px;
+    width: 570px;
+}
+.select_acc_div{
+    margin-top: -10px;
+    width: 570px;
+}
+.select_mea_div{
+    margin-top: -10px;
+    width: 570px;
+}
+
+/* 微調整 */
+.select_sld_div p{
+    margin-top: -10px;
+    margin-bottom:30px;
+}
+.select_arm{
+    width: 250px;
+}
+.fee_div{
+    margin-bottom:30px;
+}
+.select_acc{
+    width: 250px;
+}
+.rin2_div{
+    margin-bottom:30px;
+}
+
+.select_mea{
+    width: 250px;
+}
+
+
+
+.select_mate1,.select_mate2,.select_mate3,.select_mate4,.select_mate5{
+    width: 50px;
+}
+
+/* サブステテーブル */
+.tbl_subst{
+    position: relative;
+    left: -25px;
+}
+.tbl_subst th{
+    text-align: center;
+    border-bottom : 1px solid #ff0000;
+    width: 10%;
+    padding-bottom: 3px;
+
+}
+
+.tbl_subst td{
+    text-align: center;
+    border-bottom : 1px solid #a8b7c5;
+    width: 10%;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.tbl_subst_hea td,.tbl_subst_ear td,.tbl_subst_foo td{
+    padding-top:17px;
+}
+
+.tbl_subst_foo td{
+    border-bottom : 2px solid #000000;
+    border-bottom-style: solid;
+}
+.tbl_subst_total td{
+    padding-top:5px;
+    border-bottom-style: none;
+    font-weight: 800;
+    color: blue;
+}
+
+.clear{
+    clear: left;
+
+}

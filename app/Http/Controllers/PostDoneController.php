@@ -92,7 +92,6 @@ class PostDoneController extends Controller
         //なぜ0がひつようになってしまっている？？　
         $one_item = $item[0];
 
-
         //サムネイル登録
         //画像をストレージへ保存、データベースの書き換え
         if($request->file("samneil")):
