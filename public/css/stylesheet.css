@@ -347,7 +347,8 @@ h3{
     width: 20%;
 }
 #rbox{
-
+    float: left;
+    padding-left: 50px;
 }
 
 
@@ -471,4 +472,140 @@ h3{
 .clear{
     clear: left;
 
+}
+
+.status p{
+    font-size:30px;
+    text-decoration:underline;
+    text-decoration-color:#FF0000;
+    margin-top: -30px;
+    margin-bottom: 0px;
+}
+
+.main_status tr td{
+    width: 25%;
+    padding-top: 3px;
+
+}
+
+.l_table{
+    text-align: left;
+    border-bottom: solid 1px;
+    border-color: black;
+}
+
+.r_table{
+    text-align: right;
+    padding-right: 30px;
+    border-bottom: solid 1px;
+    border-color: black;
+}
+
+.sub_status_div{
+    padding-top: 20px;
+}
+
+.sub_status  tr td{
+    padding-top: 3px;
+
+}
+.sub_status_wid1{
+    width: 20%;
+}
+.sub_status_wid2{
+    width: 20%;
+}
+.sub_status_wid3{
+    width: 30%;
+}
+.sub_status_wid4{
+    width: 30%;
+}
+
+.sub_l_table{
+    text-align: left;
+    padding-left: 10px;
+
+}
+
+.sub_r_table{
+    text-align: right;
+    padding-right: 10px;
+}
+
+.crt_table{
+    background-color: rgb(255, 231, 231);
+}
+
+.dir_table{
+    background-color: rgb(231, 233, 255);
+}
+
+.det_table{
+    background-color: rgb(233, 255, 231);
+}
+
+.sks_table{
+    background-color: rgb(244, 231, 255);
+}
+
+.sps_table{
+    background-color: rgb(244, 231, 255);
+}
+
+.ten_table{
+    background-color: rgb(255, 255, 231);
+}
+
+.pie_table{
+    background-color: rgb(231, 255, 243);
+}
+
+.sample-box-13 {
+    border: 2px solid #da4033;
+    border-radius: 4px;
+    margin-top: 30px;
+    padding: 1px;
+    font-size: 50px;
+    text-align: center;
+    position: relative;
+}
+.sample-box-13::before {
+    background-color: #fff;
+    color: #da4033;
+    font-size: 20px;
+    content: "SCORE";
+    font-weight: bold;
+    left: 1em;
+    padding: 0 .5em;
+    position: absolute;
+    top: -1em;
+}
+
+.comparison_table{
+    margin-top: 30px;
+    background-color: rgb(199, 219, 255);
+
+}
+
+.comparison_table th{
+    width: 33%;
+    text-align: center;
+    background-color: rgb(160, 193, 255);
+}
+
+.comparison_table tr td{
+    text-align: center;
+}
+
+
+
+.reflect_button{
+    font-size: 10px;
+    margin-right:5px;
+}
+.delete_button{
+
+    font-size: 10px;
+    width: 23px;
 }

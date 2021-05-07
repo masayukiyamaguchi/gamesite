@@ -30,20 +30,20 @@
         　種族：
         <select name="job" class="select_race">
         <option value="non">---</option>
-        <option value="ミッドランダー">ヒュラ：ミッドランダー</option>
-        <option value="ハイランダー">ヒュラ：ハイランダー</option>
-        <option value="サンシーカー">ミコ：サンシーカー</option>
-        <option value="ムーンキーパー">ミコ：ムーンキーパー</option>
-        <option value="プレーンフォーク">ララ：プレーンフォーク</option>
-        <option value="デューンフォーク">ララ：デューンフォーク</option>
-        <option value="フォレスター">エレ：フォレスター</option>
-        <option value="シェーダー">エレ：シェーダー</option>
-        <option value="アウラ・レン">アウラ；アウラ・レン</option>
-        <option value="アウラ・ゼラ">アウラ；アウラ・ゼラ</option>
-        <option value="ヴィナ・ヴィエラ">ヴィエラ：ヴィナ・ヴィエラ</option>
-        <option value="ラヴァ・ヴィエラ">ヴィエラ：ラヴァ・ヴィエラ</option>
-        <option value="ヘリオン">ロスガル：ヘリオン</option>
-        <option value="ロスト">ロスガル：ロスト</option>
+        <option value="midran">ヒュラ：ミッドランダー</option>
+        <option value="highran">ヒュラ：ハイランダー</option>
+        <option value="sansea">ミコ：サンシーカー</option>
+        <option value="moonkey">ミコ：ムーンキーパー</option>
+        <option value="planefork">ララ：プレーンフォーク</option>
+        <option value="durnfork">ララ：デューンフォーク</option>
+        <option value="folester">エレ：フォレスター</option>
+        <option value="sheeder">エレ：シェーダー</option>
+        <option value="auraren">アウラ；アウラ・レン</option>
+        <option value="aurazera">アウラ；アウラ・ゼラ</option>
+        <option value="vinaviera">ヴィエラ：ヴィナ・ヴィエラ</option>
+        <option value="ravaviera">ヴィエラ：ラヴァ・ヴィエラ</option>
+        <option value="herion">ロスガル：ヘリオン</option>
+        <option value="lost">ロスガル：ロスト</option>
         </select>
         </p>
     </div>
@@ -544,7 +544,164 @@
 </div>
 
 
+<div id=cbox>
+    <div class="status">
+        <p>STATUS</p>
+    </div>
+<div class="main_status_div">
+    <table class="main_status">
+        <tr>
+            <td class="l_table">HP:</td>
+            <td class="r_table">500</td>
+            <td class="l_table">MP:</td>
+            <td class="r_table">10000</td>
+
+        </tr>
+
+        <tr>
+            <td class="l_table">STR:</td>
+            <td class="r_table">500</td>
+            <td class="l_table">INT:</td>
+            <td class="r_table">500</td>
+
+        </tr> 
+
+        <tr>
+            <td class="l_table">DEX:</td>
+            <td class="r_table">500</td>
+            <td class="l_table">MND:</td>
+            <td class="r_table">500</td>
+        </tr> 
+
+        <tr>
+            <td class="l_table">VIT:</td>
+            <td class="r_table">500</td>
+        </tr>
+       
+    </table>
+</div> 
+
+<div class="sub_status_div">
+    <table class="sub_status">
+        <tr class="crt_table">
+            <td class="sub_l_table sub_status_wid1">クリ：</td>
+            <td class="sub_r_table sub_status_wid2">500</td>
+            <td class="sub_l_table sub_status_wid3">クリ発生率：</td>
+            <td class="sub_r_table sub_status_wid4">500</td>
+        </tr>
+        <tr class="crt_table">
+            <td class="sub_l_table"></td>
+            <td class="sub_r_table"></td>
+            <td class="sub_l_table">クリ倍率：</td>
+            <td class="sub_r_table">50000</td>
+        </tr>
+        <tr class="dir_table">
+            <td class="sub_l_table">DH：</td>
+            <td class="sub_r_table">500</td>
+            <td class="sub_l_table">DH発生率：</td>
+            <td class="sub_r_table">500</td>
+        </tr>
+        <tr class="dir_table">
+            <td class="sub_l_table"></td>
+            <td class="sub_r_table"></td>
+            <td class="sub_l_table">DH倍率：</td>
+            <td class="sub_r_table">500</td>
+        </tr>
+        <tr class="det_table">
+            <td class="sub_l_table">意思：</td>
+            <td class="sub_r_table">500</td>
+            <td class="sub_l_table">意思倍率：</td>
+            <td class="sub_r_table">500</td>
+        </tr>
+        <tr class="sks_table">
+            <td class="sub_l_table">ｽｷｽﾋﾟ：</td>
+            <td class="sub_r_table">500</td>
+            <td class="sub_l_table">GCD：</td>
+            <td class="sub_r_table">500</td>
+        </tr>
+        <tr class="sks_table">
+            <td class="sub_l_table"></td>
+            <td class="sub_r_table"></td>
+            <td class="sub_l_table">ｽｷｽﾋﾟ倍率：</td>
+            <td class="sub_r_table">500</td>
+        </tr>
+        <tr class="sps_table">
+            <td class="sub_l_table">ｽﾍﾟｽﾋﾟ：</td>
+            <td class="sub_r_table">500</td>
+            <td class="sub_l_table">GCD：</td>
+            <td class="sub_r_table">500</td>
+        </tr>
+        <tr class="sps_table">
+            <td class="sub_l_table"></td>
+            <td class="sub_r_table"></td>
+            <td class="sub_l_table">ｽﾍﾟｽﾋﾟ倍率：</td>
+            <td class="sub_r_table">500</td>
+        </tr>
+        <tr class="ten_table">
+            <td class="sub_l_table">不屈：</td>
+            <td class="sub_r_table">500</td>
+            <td class="sub_l_table">不屈倍率：</td>
+            <td class="sub_r_table">500</td>
+        </tr>
+        <tr class="pie_table">
+            <td class="sub_l_table">信仰：</td>
+            <td class="sub_r_table">500</td>
+            <td class="sub_l_table">MP回復量：</td>
+            <td class="sub_r_table">500/3s</td>
+        </tr>
+
+    </table>
+    
+    <p>
+        <div class="sample-box-13">3254</div>        
+    </p>
+
+</div>
+
+
+</div>
+
 <div id=rbox>
+    <div class="status">
+     <p>COMPARISON</p>
+    </div>
+
+    <div>
+        <button>現在のスコアを保存する</button>
+    </div>
+
+    <table class="comparison_table">
+        <tr>
+            <th>SCORE</th>
+            <th>現スコアとの差</th>
+            <th></th>        
+        </tr>
+        
+        <tr>
+            <td>3254</td>
+            <td>-355</td>
+            <td><button class="reflect_button">反映</button><button class="delete_button">×</button></td>        
+        </tr>
+
+        <tr>
+            <td>3254</td>
+            <td>-355</td>
+            <td><button class="reflect_button">反映</button><button class="delete_button">×</button></td>        
+        </tr>
+
+        <tr>
+            <td>3254</td>
+            <td>-355</td>
+            <td><button class="reflect_button">反映</button><button class="delete_button">×</button></td>        
+        </tr>
+
+
+
+    </table>
+
+
+
+
 
 
 
@@ -554,7 +711,11 @@
 
 <div class="clear">
 
+
+
 </div>
+
+
 
 
 </div>
