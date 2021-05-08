@@ -23,27 +23,20 @@
     <div class="select_job_div">
         <p>ジョブ：
         <select name="job" class="select_job">
-        <option value="non">---</option>
-        <option value="pld">ナイト</option>
-        <option value="war">戦士</option>
+        
+            @foreach($jobs as $job)
+            <option value="{{$job['name']}}">{{$job['job_name']}}</option>
+            @endforeach
+
         </select>
+
         　種族：
-        <select name="job" class="select_race">
-        <option value="non">---</option>
-        <option value="midran">ヒュラ：ミッドランダー</option>
-        <option value="highran">ヒュラ：ハイランダー</option>
-        <option value="sansea">ミコ：サンシーカー</option>
-        <option value="moonkey">ミコ：ムーンキーパー</option>
-        <option value="planefork">ララ：プレーンフォーク</option>
-        <option value="durnfork">ララ：デューンフォーク</option>
-        <option value="folester">エレ：フォレスター</option>
-        <option value="sheeder">エレ：シェーダー</option>
-        <option value="auraren">アウラ；アウラ・レン</option>
-        <option value="aurazera">アウラ；アウラ・ゼラ</option>
-        <option value="vinaviera">ヴィエラ：ヴィナ・ヴィエラ</option>
-        <option value="ravaviera">ヴィエラ：ラヴァ・ヴィエラ</option>
-        <option value="herion">ロスガル：ヘリオン</option>
-        <option value="lost">ロスガル：ロスト</option>
+        <select name="race" class="select_race">
+        
+            @foreach($races as $race)
+                <option value="{{$race['name']}}">{{$race['race_clan']}}</option>
+            @endforeach
+
         </select>
         </p>
     </div>
