@@ -2,6 +2,7 @@
 
 <script src="{{asset('/js/change_img.js') }}"></script>
 
+
 @section("title","blog")
 
 @include("layouts.header")

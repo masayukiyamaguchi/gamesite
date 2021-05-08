@@ -23,6 +23,8 @@
     <link rel="stylesheet" href="/css/stylesheet.css"> 
     @yield("header")
 
+
+
 </head>
 <body>
     <div id="app">
@@ -122,7 +124,7 @@
 </div>
 </footer>
 
-        </main>
+    </main>
     </div>
 </body>
 </html>

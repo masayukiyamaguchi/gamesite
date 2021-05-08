@@ -37,5 +37,13 @@ class TestController extends Controller
         return view("test",["all_scs"=>$alldata]);
     }
 
+    public function jquery(){
+
+        $alldata = Screenshot::get();
+
+ 
+        return view("testjquery");
+    }
+
 
 }

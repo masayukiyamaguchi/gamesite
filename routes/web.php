@@ -43,10 +43,12 @@ Route::get('/contact/lists/',"ContactLists@index")->name("contactlists");
 
 //装備シミュレーター
 Route::get('/gear/',"GearController@index")->name("gear");
+Route::get('/gear/selectjob/',"GearController@selectjob")->name("gearselectjob");
 
 
 //テスト用
 Route::get('/test/',"TestController@test");
+Route::get('/jquerytest/',"TestController@jquery");
 
 Route::get('dump', function () {
     

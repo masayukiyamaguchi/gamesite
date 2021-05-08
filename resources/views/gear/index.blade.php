@@ -1,6 +1,17 @@
 @extends("layouts.app")
 
+
+@section("header")
+  <!-- ここの位置であってるっけ？ -->
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="{{asset('/js/gear.js') }}"></script>
+  
+@endsection
+
+
 @section("title","about")
+
 
 @include("layouts.header")
 
@@ -22,7 +33,7 @@
 
     <div class="select_job_div">
         <p>ジョブ：
-        <select name="job" class="select_job">
+        <select name="job" class="select_job" id="select_job">
         
             @foreach($jobs as $job)
             <option value="{{$job['name']}}">{{$job['job_name']}}</option>
@@ -44,10 +55,8 @@
     <div class="wep_bg_pro">
     <div  class="select_wep_div">
         <p>武器：
-        <select name="wep" class="select_wep">
-        <option value="non">---</option>
-        <option value="01">エデンモーン・バスタードソード</option>
-        <option value="02">クリプトラーカー・ソードRE</option>
+        <select name="wep" class="select_wep" id="select_wep">
+            <option value="---">---</option>
         </select>
 
         @for($i=1;$i<=5;$i++)
@@ -703,6 +712,7 @@
 
 
 <div class="clear">
+
 
 
 
