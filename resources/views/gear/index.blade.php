@@ -77,10 +77,8 @@
 
     <div class="select_sld_div">
         <p>盾　：
-        <select name="sld" class="select_wep">
-        <option value="non">---</option>
-        <option value="01">エデンモーン・バスタードソード</option>
-        <option value="02">クリプトラーカー・ソードRE</option>
+        <select name="sld" class="select_wep" id="select_sld">
+        <option value="---">---</option>
         </select>
         
         @for($i=1;$i<=5;$i++)
@@ -103,11 +101,9 @@
     <div class="arm_bg_pro">
     <div class="select_arm_div">
         <p>頭　：
-        <select name="hea" class="select_arm">
-        <option value="non">---</option>
-        <option value="01">エデンモーン・バスタードソード</option>
-        <option value="02">クリプトラーカー・ソードRE</option>
-        </select>    
+        <select name="hea" class="select_arm" id="select_hea">
+        <option value="---">---</option>
+        </select>   
 
         @for($i=1;$i<=5;$i++)
         <select name="mate{{$i}}" class="select_mate{{$i}}">
@@ -126,11 +122,9 @@
     </div>
     <div class="select_arm_div">
         <p>胴　：
-        <select name="bod" class="select_arm">
-        <option value="non">---</option>
-        <option value="01">エデンモーン・バスタードソード</option>
-        <option value="02">クリプトラーカー・ソードRE</option>
-        </select>   
+        <select name="bod" class="select_arm" id="select_bod">
+        <option value="---">---</option>
+        </select> 
         
         @for($i=1;$i<=5;$i++)
         <select name="mate{{$i}}" class="select_mate{{$i}}">
@@ -149,11 +143,9 @@
     </div>
     <div class="select_arm_div">
         <p>手　：
-        <select name="han" class="select_arm">
-        <option value="non">---</option>
-        <option value="01">エデンモーン・バスタードソード</option>
-        <option value="02">クリプトラーカー・ソードRE</option>
-        </select>    
+        <select name="han" class="select_arm" id="select_han">
+        <option value="---">---</option>
+        </select>   
 
         @for($i=1;$i<=5;$i++)
         <select name="mate{{$i}}" class="select_mate{{$i}}">
@@ -172,10 +164,8 @@
     </div>
     <div class="select_arm_div">
         <p>腰　：
-        <select name="wei" class="select_arm">
-        <option value="non">---</option>
-        <option value="01">エデンモーン・バスタードソード</option>
-        <option value="02">クリプトラーカー・ソードRE</option>
+        <select name="wei" class="select_arm" id="select_wei">
+        <option value="---">---</option>
         </select>
 
         @for($i=1;$i<=5;$i++)
@@ -195,11 +185,9 @@
     </div>
     <div class="select_arm_div">
         <p>脚　：
-        <select name="leg" class="select_arm">
-        <option value="non">---</option>
-        <option value="01">エデンモーン・バスタードソード</option>
-        <option value="02">クリプトラーカー・ソードRE</option>
-        </select>    
+        <select name="leg" class="select_arm" id="select_leg">
+        <option value="---">---</option>
+        </select> 
 
         @for($i=1;$i<=5;$i++)
         <select name="mate{{$i}}" class="select_mate{{$i}}">
@@ -218,11 +206,9 @@
     </div>
     <div class="select_arm_div fee_div">
         <p>足　：
-        <select name="fee" class="select_arm">
-        <option value="non">---</option>
-        <option value="01">エデンモーン・バスタードソード</option>
-        <option value="02">クリプトラーカー・ソードRE</option>
-        </select>    
+        <select name="fee" class="select_arm" id="select_fee">
+        <option value="---">---</option>
+        </select>  
 
         @for($i=1;$i<=5;$i++)
         <select name="mate{{$i}}" class="select_mate{{$i}}">
@@ -244,11 +230,9 @@
     <div class="acc_bg_pro">
     <div class="select_acc_div">
         <p>耳　：
-        <select name="ear" class="select_acc">
-        <option value="non">---</option>
-        <option value="01">エデンモーン・バスタードソード</option>
-        <option value="02">クリプトラーカー・ソードRE</option>
-        </select>    
+        <select name="ear" class="select_acc" id="select_ear">
+        <option value="---">---</option>
+        </select> 
 
         @for($i=1;$i<=5;$i++)
         <select name="mate{{$i}}" class="select_mate{{$i}}">
@@ -267,11 +251,9 @@
     </div>
     <div class="select_acc_div">
         <p>首　：
-        <select name="nec" class="select_acc">
-        <option value="non">---</option>
-        <option value="01">エデンモーン・バスタードソード</option>
-        <option value="02">クリプトラーカー・ソードRE</option>
-        </select>    
+        <select name="nec" class="select_acc" id="select_nec">
+        <option value="---">---</option>
+        </select>   
 
         @for($i=1;$i<=5;$i++)
         <select name="mate{{$i}}" class="select_mate{{$i}}">
@@ -290,11 +272,9 @@
     </div>
     <div class="select_acc_div">
         <p>腕　：
-        <select name="bra" class="select_acc">
-        <option value="non">---</option>
-        <option value="01">エデンモーン・バスタードソード</option>
-        <option value="02">クリプトラーカー・ソードRE</option>
-        </select>    
+        <select name="bra" class="select_acc" id="select_bra">
+        <option value="---">---</option>
+        </select>
 
         @for($i=1;$i<=5;$i++)
         <select name="mate{{$i}}" class="select_mate{{$i}}">
@@ -313,11 +293,9 @@
     </div>
     <div class="select_acc_div">
         <p>指　：
-        <select name="rin1" class="select_acc">
-        <option value="non">---</option>
-        <option value="01">エデンモーン・バスタードソード</option>
-        <option value="02">クリプトラーカー・ソードRE</option>
-        </select>    
+        <select name="rin1" class="select_acc" id="select_rin1">
+        <option value="---">---</option>
+        </select>   
 
         @for($i=1;$i<=5;$i++)
         <select name="mate{{$i}}" class="select_mate{{$i}}">
@@ -336,11 +314,9 @@
     </div>
     <div class="select_acc_div rin2_div">
         <p>指　：
-        <select name="rin2" class="select_acc">
-        <option value="non">---</option>
-        <option value="01">エデンモーン・バスタードソード</option>
-        <option value="02">クリプトラーカー・ソードRE</option>
-        </select>    
+        <select name="rin2" class="select_acc" id="select_rin2">
+        <option value="---">---</option>
+        </select>  
 
         @for($i=1;$i<=5;$i++)
         <select name="mate{{$i}}" class="select_mate{{$i}}">
@@ -362,11 +338,9 @@
     <div class="mea_bg_pro">
     <div class="select_mea_div">
         <p>食事：
-        <select name="foo" class="select_mea">
-        <option value="non">---</option>
-        <option value="01">エデンモーン・バスタードソード</option>
-        <option value="02">クリプトラーカー・ソードRE</option>
-        </select>    
+        <select name="foo" class="select_mea" id="select_foo">
+        <option value="---">---</option>
+        </select>  
         </p>
     </div>
     </div>
