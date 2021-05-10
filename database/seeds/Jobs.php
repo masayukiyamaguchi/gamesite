@@ -107,7 +107,7 @@ class Jobs extends Seeder
                 [
                 "job_name"=>"青魔道士",
                 "role"=>"キャスター",
-                "name"=>"mlu",
+                "name"=>"blu",
                 "main_status"=>"int",
                 "job_num"=>"16"],
                 [

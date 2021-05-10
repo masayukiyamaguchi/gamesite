@@ -1,4 +1,4 @@
-$(function(){
+$(function() {
     // ジョブが選択されたら実行
     $("#select_job").change(function(){
 
@@ -111,15 +111,109 @@ $(function(){
             createSlect("#select_bra",braceletgears);
             createSlect("#select_rin1",ringgears);
             createSlect("#select_rin2",ringgears);
-            createSlect("#select_foo",foods);
         })
         // Ajaxリクエスト失敗時の処理
         .fail(function(data) {
             alert('Ajaxリクエスト失敗');
         });
 
+        // ジョブごとに表示するサブステを変える
+        switch($("#select_job").val()){
 
-    })
+            case "pld":
+                displayBlock(".select_sld,.sld_mate");
+                displayBlock(".subst_sks");
+                displayNone(".subst_sps");
+                displayBlock(".subst_ten");
+                displayNone(".subst_pie");
+                $("#subst_main").text("STR");
+
+            break;
+
+            case "war":
+            case "drk":
+            case "gnb":
+                displayNone(".select_sld,.sld_mate");
+                displayBlock(".subst_sks");
+                displayNone(".subst_sps");
+                displayBlock(".subst_ten");
+                displayNone(".subst_pie");
+                $("#subst_main").text("STR");                
+            break;
+
+            case "drg":
+            case "mnk":
+            case "sam":
+                displayNone(".select_sld,.sld_mate");
+                displayBlock(".subst_sks");
+                displayNone(".subst_sps");
+                displayNone(".subst_ten");
+                displayNone(".subst_pie");
+                $("#subst_main").text("STR");                
+            break;
+
+            case "nin":
+            case "brd":
+            case "mcn":
+            case "dnc":
+                displayNone(".select_sld,.sld_mate");
+                displayBlock(".subst_sks");
+                displayNone(".subst_sps");
+                displayNone(".subst_ten");
+                displayNone(".subst_pie");
+                $("#subst_main").text("DEX");                
+                break;
+
+            case "blm":
+            case "smn":
+            case "rdm":
+            case "blu":                
+                displayNone(".select_sld,.sld_mate");
+                displayNone(".subst_sks");
+                displayBlock(".subst_sps");
+                displayNone(".subst_ten");
+                displayNone(".subst_pie");
+                $("#subst_main").text("INT");                
+                break;
+
+            case "whm":
+            case "sch":
+            case "ast":
+                displayNone(".select_sld,.sld_mate");
+                displayNone(".subst_sks");
+                displayBlock(".subst_sps");
+                displayNone(".subst_ten");
+                displayBlock(".subst_pie");
+                $("#subst_main").text("MND");
+            break;
+
+            default:
+
+
+            break;
+        }
+
+
+    });
+    
+    // //武器が変更したら実行
+    // $("#select_wep").change(function(){
+    //     //武器の内容を特定
+    //     var weapon_id = $("#select_wep").val();
+
+    //     // 武器を特定(これもう一回撮ってくる必要あり？)
+    //     weapons.forEach(function(gear){
+    //         if(gear["id"]==weapon_id){
+    //             var weapon = gear;
+    //             break;
+    //         }            
+    //     });
+    //     console.log(weapon);
+        
+    //     displayNone(".select_wepmate3");
+    //     displayNone(".select_wepmate4");
+    //     displayNone(".select_wepmate5");
+    // });
 
 });
 
@@ -133,4 +227,12 @@ function createSlect(id,gears){
     }); 
     //一番下に装備なしを追加
     $(id).append('<option value="---">---</option>');
+}
+
+function displayNone(subst){
+    $(subst).addClass("display_none");
+}
+
+function displayBlock(subst){
+    $(subst).removeClass("display_none");
 }

@@ -60,7 +60,7 @@
         </select>
 
         @for($i=1;$i<=5;$i++)
-        <select name="mate{{$i}}" class="select_mate{{$i}}">
+        <select name="wepmate{{$i}}" class="select_mate{{$i}} select_wepmate{{$i}}">
         <option value="non">---</option>
         <option value="crt">クリ</option>
         <option value="dir">DH</option>
@@ -77,12 +77,12 @@
 
     <div class="select_sld_div">
         <p>盾　：
-        <select name="sld" class="select_wep" id="select_sld">
+        <select name="sld" class="select_sld" id="select_sld">
         <option value="---">---</option>
         </select>
         
         @for($i=1;$i<=5;$i++)
-        <select name="mate{{$i}}" class="select_mate{{$i}}">
+        <select name="mate{{$i}}" class="select_mate{{$i}} sld_mate">
         <option value="non">---</option>
         <option value="crt">クリ</option>
         <option value="dir">DH</option>
@@ -340,6 +340,11 @@
         <p>食事：
         <select name="foo" class="select_mea" id="select_foo">
         <option value="---">---</option>
+
+        @foreach($foods as $food)
+            <option value="{{$food['item_name']}}">{{$food['item_name']}}</option>
+        @endforeach
+        
         </select>  
         </p>
     </div>
@@ -347,173 +352,37 @@
 
 </div>
 
+<!-- サブステ部分のリスト -->
+<?php $tbl_substs = ["tbl_subst_wep","tbl_subst_sld","tbl_subst_hea","tbl_subst_bod","tbl_subst_han","tbl_subst_wei","tbl_subst_leg","tbl_subst_fee","tbl_subst_ear","tbl_subst_nec","tbl_subst_bra","tbl_subst_rin1","tbl_subst_rin2","tbl_subst_foo","tbl_subst_total"]?>
+
+<!-- サブステ部分の表示 -->
 <div id=cbox>
     <table class="tbl_subst">
-        <tr class="tbl_subst_th">
-            <th>STR</th>
-            <th>CRT</th>
-            <th>DIR</th>
-            <th>DET</th>
-            <th>SKS</th>
-            <th>VIT</th>
-            <th>PHD</th>
-            <th>AA</th>            
+        <tr class="tbl_subst_tr">
+            <th id="subst_main" class="subst_main">STR</th>
+            <th class="subst_crt">CRT</th>
+            <th class="subst_dir">DIR</th>
+            <th class="subst_det">DET</th>
+            <th class="subst_sks">SKS</th>
+            <th class="subst_sps">SPS</th>
+            <th class="subst_ten">TEN</th>
+            <th class="subst_pie">PIE</th>
+            <th class="subst_vit">VIT</th>
+   
         </tr>
-        <tr class="tbl_subst_wep">
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>100.05</td>            
-        </tr>        
-        <tr class="tbl_subst_sld">
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>100.05</td>            
+        @foreach($tbl_substs as $tbl_subst)
+        <tr class="{{$tbl_subst}}">
+            <td id="{{$tbl_subst}}_main" class="subst_main">555</td>
+            <td id="{{$tbl_subst}}_crt" class="subst_crt">555</td>
+            <td id="{{$tbl_subst}}_dir" class="subst_dir">555</td>
+            <td id="{{$tbl_subst}}_det" class="subst_det">555</td>
+            <td id="{{$tbl_subst}}_sks" class="subst_sks">555</td>
+            <td id="{{$tbl_subst}}_sps" class="subst_sps">555</td>
+            <td id="{{$tbl_subst}}_ten" class="subst_ten">555</td>
+            <td id="{{$tbl_subst}}_pie" class="subst_pie">555</td>
+            <td id="{{$tbl_subst}}_vit" class="subst_vit">555</td>       
         </tr>
-
-        <tr class="tbl_subst_hea">
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>100.05</td>            
-        </tr>
-        <tr class="tbl_subst_bod">
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>100.05</td>            
-        </tr>
-        <tr class="tbl_subst_han">
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>100.05</td>            
-        </tr>
-        <tr class="tbl_subst_wei">
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>100.05</td>            
-        </tr>
-        <tr class="tbl_subst_leg">
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>100.05</td>            
-        </tr>
-        <tr class="tbl_subst_fee">
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>100.05</td>            
-        </tr>
-
-        <tr class="tbl_subst_ear">
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>100.05</td>            
-        </tr>
-        <tr class="tbl_subst_nec">
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>100.05</td>            
-        </tr>
-        <tr class="tbl_subst_bra">
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>100.05</td>            
-        </tr>
-        <tr class="tbl_subst_rin1">
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>100.05</td>            
-        </tr>
-        <tr class="tbl_subst_rin2">
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>100.05</td>            
-        </tr>
-
-        <tr class="tbl_subst_foo">
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>100.05</td>            
-        </tr>
-
-        <tr class="tbl_subst_total">
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>555</td>
-            <td>100.05</td>            
-        </tr>
-
+        @endforeach
 
     </table>
 
@@ -554,6 +423,20 @@
             <td class="r_table">500</td>
         </tr>
        
+    </table>
+</div> 
+
+<div class="weapon_bap_div">
+    <table class="weapon_bap">
+        <tr>
+            <td>基本性能:</td>
+            <td class="weapon_bap_value">500</td>
+            <td>AA:</td>
+            <td class="weapon_bap_value">500</td>
+            <td>攻撃間隔:</td>
+            <td class="weapon_bap_value">500</td>
+        </tr>
+
     </table>
 </div> 
 

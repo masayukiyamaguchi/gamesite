@@ -26,10 +26,10 @@ class GearController extends Controller
     public function index(){
         $jobs = Job::all();
         $races = Race::all();
-        // $foods = Food::all();
+        $foods = Food::all();
 
 
-        return view('gear.index',["jobs"=>$jobs,"races"=>$races]);
+        return view('gear.index',["jobs"=>$jobs,"races"=>$races,"foods"=>$foods]);
         
     }
 
