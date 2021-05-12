@@ -413,14 +413,23 @@ h3{
 /* 微調整 */
 .select_sld_div p{
     margin-top: -10px;
-    margin-bottom:30px;
 }
 .select_arm{
     width: 250px;
 }
-.fee_div{
-    margin-bottom:30px;
+
+.arm_bg_pro{
+    margin-top:30px;
 }
+
+.acc_bg_pro{
+    margin-top:30px;
+}
+
+.mea_bg_pro{
+    margin-top:30px;
+}
+
 .select_acc{
     width: 250px;
 }
@@ -432,9 +441,7 @@ h3{
     width: 250px;
 }
 
-
-
-.select_mate1,.select_mate2,.select_mate3,.select_mate4,.select_mate5{
+.select_mate{
     width: 50px;
 }
 

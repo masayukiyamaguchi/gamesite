@@ -19,6 +19,7 @@ use App\Necklacegear;
 use App\Braceletgear;
 use App\Ringgear;
 use App\Food;
+use App\Geartable;
 
 class GearController extends Controller
 {
@@ -27,10 +28,16 @@ class GearController extends Controller
         $jobs = Job::all();
         $races = Race::all();
         $foods = Food::all();
+        $gears = Geartable::where("category","like","%pro")->get();
+        $substs = Geartable::select(["id","gear_name","name","table"])->get();
 
-
-        return view('gear.index',["jobs"=>$jobs,"races"=>$races,"foods"=>$foods]);
-        
+        return view('gear.index',[
+                "jobs"=>$jobs,
+                "races"=>$races,
+                "foods"=>$foods,
+                "gears"=>$gears,
+                "substs"=>$substs
+                ]);        
     }
 
     public function selectjob(Request $request){
@@ -52,7 +59,7 @@ class GearController extends Controller
         $ringgears = Ringgear::where("equipable_job_name",'like',"%$job%")->get();
  
 
-        //jsonをデコードして配列を結合
+        //jsonをデコードして配列を結合 jsonをphpで扱える変数に変換
         $alldata = array_merge_recursive(
             json_decode($weapons),
             json_decode($shields),

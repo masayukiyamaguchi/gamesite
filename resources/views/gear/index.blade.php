@@ -52,7 +52,39 @@
         </p>
     </div>
 
-    <div class="wep_bg_pro">
+    @foreach($gears as $gear)
+        @if($gear["name"] == "wep" || $gear["name"] == "hea" || $gear["name"] == "ear")
+            <div class="{{$gear['category']}}">
+        @endif
+            <div  class="{{$gear['class']}}">
+              <p>{{$gear['gear_name']}}：
+              <select name="{{$gear['name']}}" class="{{$gear['pull_d_class']}}" id="{{$gear['pull_d_id']}}">
+                    <option value="---">---</option>
+              </select>
+
+              @for($i=1;$i<=5;$i++)
+                <select name="{{$gear['mate_name']}}{{$i}}" class="select_mate select_{{$gear['mate_name']}}{{$i}}">
+                <option value="non">---</option>
+                <option value="crt">クリ</option>
+                <option value="dir">DH</option>
+                <option value="det">意思</option>
+                <option value="sks">SS</option>
+                <option value="sps">SS</option>
+                <option value="ten">不屈</option>
+                <option value="pie">信仰</option>
+                </select>
+              @endfor
+              </p>
+            </div>
+        
+        @if($gear["name"]=="sld" || $gear["name"]=="fee" || $gear["name"]=="rin2")
+          </div>
+        @endif        
+
+    @endforeach
+
+
+    <!-- <div class="wep_bg_pro">
     <div  class="select_wep_div">
         <p>武器：
         <select name="wep" class="select_wep" id="select_wep">
@@ -60,7 +92,7 @@
         </select>
 
         @for($i=1;$i<=5;$i++)
-        <select name="wepmate{{$i}}" class="select_mate{{$i}} select_wepmate{{$i}}">
+        <select name="wepmate{{$i}}" class="select_mate select_wepmate{{$i}}">
         <option value="non">---</option>
         <option value="crt">クリ</option>
         <option value="dir">DH</option>
@@ -82,7 +114,7 @@
         </select>
         
         @for($i=1;$i<=5;$i++)
-        <select name="mate{{$i}}" class="select_mate{{$i}} sld_mate">
+        <select name="sldmate{{$i}}" class="select_mate select_sldmate{{$i}} sld_mate">
         <option value="non">---</option>
         <option value="crt">クリ</option>
         <option value="dir">DH</option>
@@ -106,7 +138,7 @@
         </select>   
 
         @for($i=1;$i<=5;$i++)
-        <select name="mate{{$i}}" class="select_mate{{$i}}">
+        <select name="heamate{{$i}}" class="select_mate select_heamate{{$i}}">
         <option value="non">---</option>
         <option value="crt">クリ</option>
         <option value="dir">DH</option>
@@ -127,7 +159,7 @@
         </select> 
         
         @for($i=1;$i<=5;$i++)
-        <select name="mate{{$i}}" class="select_mate{{$i}}">
+        <select name="mate{{$i}}" class="select_mate select_bodmate{{$i}}">
         <option value="non">---</option>
         <option value="crt">クリ</option>
         <option value="dir">DH</option>
@@ -148,7 +180,7 @@
         </select>   
 
         @for($i=1;$i<=5;$i++)
-        <select name="mate{{$i}}" class="select_mate{{$i}}">
+        <select name="mate{{$i}}" class="select_mate select_hanmate{{$i}}">
         <option value="non">---</option>
         <option value="crt">クリ</option>
         <option value="dir">DH</option>
@@ -169,7 +201,7 @@
         </select>
 
         @for($i=1;$i<=5;$i++)
-        <select name="mate{{$i}}" class="select_mate{{$i}}">
+        <select name="mate{{$i}}" class="select_mate select_weimate{{$i}}">
         <option value="non">---</option>
         <option value="crt">クリ</option>
         <option value="dir">DH</option>
@@ -190,7 +222,7 @@
         </select> 
 
         @for($i=1;$i<=5;$i++)
-        <select name="mate{{$i}}" class="select_mate{{$i}}">
+        <select name="mate{{$i}}" class="select_mate select_legmate{{$i}}">
         <option value="non">---</option>
         <option value="crt">クリ</option>
         <option value="dir">DH</option>
@@ -211,7 +243,7 @@
         </select>  
 
         @for($i=1;$i<=5;$i++)
-        <select name="mate{{$i}}" class="select_mate{{$i}}">
+        <select name="mate{{$i}}" class="select_mate select_feemate{{$i}}">
         <option value="non">---</option>
         <option value="crt">クリ</option>
         <option value="dir">DH</option>
@@ -235,7 +267,7 @@
         </select> 
 
         @for($i=1;$i<=5;$i++)
-        <select name="mate{{$i}}" class="select_mate{{$i}}">
+        <select name="mate{{$i}}" class="select_mate select_earmate{{$i}}">
         <option value="non">---</option>
         <option value="crt">クリ</option>
         <option value="dir">DH</option>
@@ -256,7 +288,7 @@
         </select>   
 
         @for($i=1;$i<=5;$i++)
-        <select name="mate{{$i}}" class="select_mate{{$i}}">
+        <select name="mate{{$i}}" class="select_mate select_necmate{{$i}}">
         <option value="non">---</option>
         <option value="crt">クリ</option>
         <option value="dir">DH</option>
@@ -277,7 +309,7 @@
         </select>
 
         @for($i=1;$i<=5;$i++)
-        <select name="mate{{$i}}" class="select_mate{{$i}}">
+        <select name="mate{{$i}}" class="select_mate select_bramate{{$i}}">
         <option value="non">---</option>
         <option value="crt">クリ</option>
         <option value="dir">DH</option>
@@ -298,7 +330,7 @@
         </select>   
 
         @for($i=1;$i<=5;$i++)
-        <select name="mate{{$i}}" class="select_mate{{$i}}">
+        <select name="mate{{$i}}" class="select_mate select_rin1mate{{$i}}">
         <option value="non">---</option>
         <option value="crt">クリ</option>
         <option value="dir">DH</option>
@@ -319,7 +351,7 @@
         </select>  
 
         @for($i=1;$i<=5;$i++)
-        <select name="mate{{$i}}" class="select_mate{{$i}}">
+        <select name="mate{{$i}}" class="select_mate select_rin2mate{{$i}}">
         <option value="non">---</option>
         <option value="crt">クリ</option>
         <option value="dir">DH</option>
@@ -333,7 +365,7 @@
 
         </p>
     </div>
-    </div>
+    </div> -->
 
     <div class="mea_bg_pro">
     <div class="select_mea_div">
@@ -352,8 +384,6 @@
 
 </div>
 
-<!-- サブステ部分のリスト -->
-<?php $tbl_substs = ["tbl_subst_wep","tbl_subst_sld","tbl_subst_hea","tbl_subst_bod","tbl_subst_han","tbl_subst_wei","tbl_subst_leg","tbl_subst_fee","tbl_subst_ear","tbl_subst_nec","tbl_subst_bra","tbl_subst_rin1","tbl_subst_rin2","tbl_subst_foo","tbl_subst_total"]?>
 
 <!-- サブステ部分の表示 -->
 <div id=cbox>
@@ -370,17 +400,17 @@
             <th class="subst_vit">VIT</th>
    
         </tr>
-        @foreach($tbl_substs as $tbl_subst)
-        <tr class="{{$tbl_subst}}">
-            <td id="{{$tbl_subst}}_main" class="subst_main">555</td>
-            <td id="{{$tbl_subst}}_crt" class="subst_crt">555</td>
-            <td id="{{$tbl_subst}}_dir" class="subst_dir">555</td>
-            <td id="{{$tbl_subst}}_det" class="subst_det">555</td>
-            <td id="{{$tbl_subst}}_sks" class="subst_sks">555</td>
-            <td id="{{$tbl_subst}}_sps" class="subst_sps">555</td>
-            <td id="{{$tbl_subst}}_ten" class="subst_ten">555</td>
-            <td id="{{$tbl_subst}}_pie" class="subst_pie">555</td>
-            <td id="{{$tbl_subst}}_vit" class="subst_vit">555</td>       
+        @foreach($substs as $subst)
+        <tr class="{{$subst['table']}}">
+            <td id="{{$subst['table']}}_main" class="subst_main">555</td>
+            <td id="{{$subst['table']}}_crt" class="subst_crt">555</td>
+            <td id="{{$subst['table']}}_dir" class="subst_dir">555</td>
+            <td id="{{$subst['table']}}_det" class="subst_det">555</td>
+            <td id="{{$subst['table']}}_sks" class="subst_sks">555</td>
+            <td id="{{$subst['table']}}_sps" class="subst_sps">555</td>
+            <td id="{{$subst['table']}}_ten" class="subst_ten">555</td>
+            <td id="{{$subst['table']}}_pie" class="subst_pie">555</td>
+            <td id="{{$subst['table']}}_vit" class="subst_vit">555</td>       
         </tr>
         @endforeach
 

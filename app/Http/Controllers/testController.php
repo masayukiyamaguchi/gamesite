@@ -24,17 +24,8 @@ class TestController extends Controller
 
     public function test(){
 
-        $alldata = Screenshot::get();
-
-        $all_scs = new Screenshot();
-        $all_scs->name = "savethequeen";
-        $all_scs->title = "セーブザ・クイーン";
-        $all_scs->comment01 = "あれよあれ";
-        $all_scs->comment02 = "テスト挿入";
-        $all_scs->url = "できたかな？";
-        $all_scs->save();
  
-        return view("test",["all_scs"=>$alldata]);
+        return view("test");
     }
 
     public function jquery(){
