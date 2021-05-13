@@ -16,6 +16,29 @@ $(function() {
             var ringgears = [];
             var foods = [];
 
+            var allstatus = {
+                wep:{main:100,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                hea:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                sld:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                bod:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                han:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                wei:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                leg:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                fee:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                ear:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                nec:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                bra:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                rin1:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                rin2:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                foo:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                total:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0}           
+            };
+
+            var gears = ["wep","sld","hea","bod","han","wei","leg","fee","ear","nec","bra","rin1","rin2"];
+            var substatus = ["main","crt","dir","det","sks","sps","ten","pie","vit"];
+
+
+
     // ジョブが選択されたら実行
     $("#select_job").change(function(){
 
@@ -130,6 +153,25 @@ $(function() {
             materiaDisplayDone(ringgears[0],".select_rin1mate");
             materiaDisplayDone(ringgears[0],".select_rin2mate"); 
 
+            //挿入された装備に応じてステータスを表示
+            // refreshSubStatus(allstatus); //初期化 いらない？一応残しておく
+            substatus.forEach(function(sbst){
+                allstatus["wep"][sbst] = weapons[0][sbst+"_status"];
+                if(selectjob=="pld"){
+                    allstatus["sld"][sbst] = shields[0][sbst+"_status"];
+                 }                
+                allstatus["hea"][sbst] = headgears[0][sbst+"_status"];
+                allstatus["bod"][sbst] = bodygears[0][sbst+"_status"];
+                allstatus["han"][sbst] = handgears[0][sbst+"_status"];
+                allstatus["wei"][sbst] = waistgears[0][sbst+"_status"];
+                allstatus["leg"][sbst] = leggears[0][sbst+"_status"];
+                allstatus["fee"][sbst] = feetgears[0][sbst+"_status"];
+                allstatus["ear"][sbst] = earringgears[0][sbst+"_status"];
+                allstatus["nec"][sbst] = necklacegears[0][sbst+"_status"];
+                allstatus["bra"][sbst] = braceletgears[0][sbst+"_status"];
+                allstatus["rin1"][sbst] = ringgears[0][sbst+"_status"];
+                allstatus["rin2"][sbst] = ringgears[0][sbst+"_status"];                
+            })           
             
             //プルダウンリストの作成（関数）
             createSlect("#select_wep",weapons);
@@ -145,6 +187,28 @@ $(function() {
             createSlect("#select_bra",braceletgears);
             createSlect("#select_rin1",ringgears);
             createSlect("#select_rin2",ringgears);
+
+
+            // サブステの値を挿入
+            substatus.forEach(function(sbst){
+                $("#tbl_subst_wep_"+sbst).text(allstatus["wep"][sbst]);
+                if(selectjob=="pld"){
+                    $("#tbl_subst_sld_"+sbst).text(allstatus["sld"][sbst]);
+                }
+                $("#tbl_subst_hea_"+sbst).text(allstatus["hea"][sbst]);
+                $("#tbl_subst_bod_"+sbst).text(allstatus["bod"][sbst]);
+                $("#tbl_subst_han_"+sbst).text(allstatus["han"][sbst]);
+                $("#tbl_subst_wei_"+sbst).text(allstatus["wei"][sbst]);
+                $("#tbl_subst_leg_"+sbst).text(allstatus["leg"][sbst]);
+                $("#tbl_subst_fee_"+sbst).text(allstatus["fee"][sbst]);
+                $("#tbl_subst_ear_"+sbst).text(allstatus["ear"][sbst]);
+                $("#tbl_subst_nec_"+sbst).text(allstatus["nec"][sbst]);
+                $("#tbl_subst_bra_"+sbst).text(allstatus["bra"][sbst]);
+                $("#tbl_subst_rin1_"+sbst).text(allstatus["rin1"][sbst]);
+                $("#tbl_subst_rin2_"+sbst).text(allstatus["rin2"][sbst]);
+
+            });
+
         })
         // Ajaxリクエスト失敗時の処理
         .fail(function(data) {
@@ -236,13 +300,28 @@ $(function() {
     // ※ここをリストからのデータをforeachで回して書くことはできる？
     //武器が変更したら実行
     $("#select_wep").change(function(){
-        // 渡す変数（プルダウン該当のID,ギアリストの大元,マテリア部分のクラス
-        materiaDisplay("#select_wep",weapons,".select_wepmate");
+        
+        //変更した武器を特定（変更した箇所,装備のリスト）
+        var gear = gearsbst("#select_wep",weapons); 
+
+        //マテリアを消す（特定した武器,マテリアのclass）
+        materiaDisplayDone(gear,".select_wepmate");
+
+        //サブステ大元のリストと表示を変更
+        substatus.forEach(function(sbst){
+            allstatus["wep"]["sbst"] = gear[sbst+"_status"];
+            $("#tbl_subst_wep_"+sbst).text(gear[sbst+"_status"]);
+        });
     });
 
     //盾が変更したら実行
     $("#select_sld").change(function(){
-        materiaDisplay("#select_sld",shields,".select_sldmate");
+        var gear = gearsbst("#select_sld",shields); 
+        materiaDisplayDone(gear,".select_sldmate");
+        substatus.forEach(function(sbst){
+            allstatus["sld"]["sbst"] = gear[sbst+"_status"];
+            $("#tbl_subst_sld_"+sbst).text(gear[sbst+"_status"]);
+        });
     });
 
     // 以下同
@@ -328,6 +407,7 @@ function materiaDisplay(id,list,mateclass){
 
 }
 
+// マテリア部分の表示を実行
 function materiaDisplayDone(item,mateclass){
     for(var i=1;i<=5;i++){
         if(item["materia0"+i]==0){
@@ -337,5 +417,34 @@ function materiaDisplayDone(item,mateclass){
         }
 
     }
+
+}
+
+//サブステ値の初期化
+function refreshSubStatus(allstatus){
+    Object.keys(allstatus).forEach(function(value) {
+            Object.keys(allstatus[value]).forEach(function(num) {
+            allstatus[value][num] = 0;
+        });
+    });
+}
+
+
+
+// 変更した装備を特定
+function gearsbst(id,list){
+    var item;
+
+    //プルダウンのギアの内容を特定
+    var gear_id = $(id).val();
+     
+    // ギアのデータ配列を特定
+    list.forEach(function(gear){
+        if(gear["id"]==gear_id){
+            item = gear;
+        }
+    });
+        
+    return (item);   
 
 }
