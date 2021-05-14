@@ -13,6 +13,24 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UserSeeder::class);
         $this->call(ScreenShotsSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(ScreenShotsSeeder::class);
+        $this->call(BlogsSeeder::class);
+        $this->call(Braceletgears::class);
+        $this->call(Earringgears::class);
+        $this->call(Feetgears::class);
+        $this->call(Foods::class);
+        $this->call(Geartables::class);
+        $this->call(Handgears::class);
+        $this->call(Headgears::class);
+        $this->call(Jobs::class);
+        $this->call(Leggears::class);
+        $this->call(Necklacegears::class);
+        $this->call(Races::class);
+        $this->call(Ringgears::class);
+        $this->call(Shields::class);
+        $this->call(Waistgears::class);
+        $this->call(Weapons::class);
 
     }
 }

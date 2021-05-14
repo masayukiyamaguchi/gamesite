@@ -57,6 +57,7 @@ class GearController extends Controller
         $necklacegears = Necklacegear::where("equipable_job_name",'like',"%$job%")->get();
         $braceletgears = Braceletgear::where("equipable_job_name",'like',"%$job%")->get();
         $ringgears = Ringgear::where("equipable_job_name",'like',"%$job%")->get();
+        $foods = Food::all();
  
 
         //jsonをデコードして配列を結合 jsonをphpで扱える変数に変換
@@ -73,6 +74,7 @@ class GearController extends Controller
             json_decode($necklacegears),
             json_decode($braceletgears),
             json_decode($ringgears),
+            json_decode($foods),
         );
 
         // 値を返す

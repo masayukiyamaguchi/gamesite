@@ -374,7 +374,7 @@
         <option value="---">---</option>
 
         @foreach($foods as $food)
-            <option value="{{$food['item_name']}}">{{$food['item_name']}}</option>
+            <option value="{{$food['id']}}">{{$food['item_name']}}</option>
         @endforeach
         
         </select>  
@@ -402,15 +402,15 @@
         </tr>
         @foreach($substs as $subst)
         <tr class="{{$subst['table']}}">
-            <td id="{{$subst['table']}}_main" class="subst_main">555</td>
-            <td id="{{$subst['table']}}_crt" class="subst_crt">555</td>
-            <td id="{{$subst['table']}}_dir" class="subst_dir">555</td>
-            <td id="{{$subst['table']}}_det" class="subst_det">555</td>
-            <td id="{{$subst['table']}}_sks" class="subst_sks">555</td>
-            <td id="{{$subst['table']}}_sps" class="subst_sps">555</td>
-            <td id="{{$subst['table']}}_ten" class="subst_ten">555</td>
-            <td id="{{$subst['table']}}_pie" class="subst_pie">555</td>
-            <td id="{{$subst['table']}}_vit" class="subst_vit">555</td>       
+            <td id="{{$subst['table']}}_main" class="subst_main">0</td>
+            <td id="{{$subst['table']}}_crt" class="subst_crt">0</td>
+            <td id="{{$subst['table']}}_dir" class="subst_dir">0</td>
+            <td id="{{$subst['table']}}_det" class="subst_det">0</td>
+            <td id="{{$subst['table']}}_sks" class="subst_sks">0</td>
+            <td id="{{$subst['table']}}_sps" class="subst_sps">0</td>
+            <td id="{{$subst['table']}}_ten" class="subst_ten">0</td>
+            <td id="{{$subst['table']}}_pie" class="subst_pie">0</td>
+            <td id="{{$subst['table']}}_vit" class="subst_vit">0</td>       
         </tr>
         @endforeach
 
