@@ -12,9 +12,33 @@ class Foods extends Seeder
     public function run()
     {
         $param = [
+
+            [
+                "item_name"=>"---",
+                "location"=>"食事",
+                "item_level"=>"0",
+                "vit_status"=>"0",
+                "vit_status_limit"=>"0",
+                "crt_status"=>"0",
+                "crt_status_limit"=>"0",
+                "dir_status"=>"0",
+                "dir_status_limit"=>"0",
+                "det_status"=>"0",
+                "det_status_limit"=>"0",
+                "sks_status"=>"0",
+                "sks_status_limit"=>"0",
+                "sps_status"=>"0",
+                "sps_status_limit"=>"0",
+                "ten_status"=>"10",
+                "ten_status_limit"=>"0",
+                "pie_status"=>"0",
+                "pie_status_limit"=>"0",
+                "image"=>"0",
+                "url"=>" ",
+                "text"=>"---"],
             
             
-[
+    [
     "item_name"=>"ピッツァ(HQ)",
     "location"=>"食事",
     "item_level"=>"510",
@@ -221,7 +245,6 @@ class Foods extends Seeder
     "image"=>"0",
     "url"=>"https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/58661f5b4a2/",
     "text"=>"リトルレモンを混ぜた生地を焼き上げたマフィン経験値獲得量 +3%効果時間 30:00[最大2倍まで効果時間の継ぎ足し可能]"],
-    
     
     
         ];

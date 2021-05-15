@@ -15,6 +15,27 @@ $(function() {
             var braceletgears = [];
             var ringgears = [];
             var foods = [];
+            var nulls = [];
+
+            var chara_status = {
+                hp:7863,
+                mp:10000,
+                str:342,
+                dex:322,
+                vit:422,
+                int:207,
+                mnd:339,                                
+                bap:0,
+                aa:0,
+                aatime:0,
+                crt:380,
+                dir:380,
+                det:340,
+                sks:380,
+                sps:380,
+                ten:380,
+                pie:240,
+            }
 
             var allstatus = {
                 wep:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
@@ -78,6 +99,7 @@ $(function() {
             ringgears = [];
             foods = [];
             //データベースからの情報を各変数へ割り振り
+
             data.forEach(function(data){
                 switch(data["location"]){
                     case "武器":
@@ -130,7 +152,11 @@ $(function() {
 
                     case "食事":
                         foods.push(data);
-                        break;                        
+                        break;
+                        
+                    case "null":
+                        nulls.push(data);
+                        break;                           
 
                     default :
                         break;
@@ -138,7 +164,9 @@ $(function() {
             })
 
 
-            // 挿入された装備に応じてマテリアの表示・非表示            
+            // 挿入された装備に応じてマテリアの表示・非表示
+            console.log(bodygears[0]);
+            
             materiaDisplayDone(weapons[0],".select_wepmate");
             if(selectjob=="pld"){
                materiaDisplayDone(shields[0],".select_sldmate");
@@ -323,152 +351,60 @@ $(function() {
 
     });
 
-
     
-    // ※ここをリストからのデータをforeachで回して書くことはできる？
     //武器が変更したら実行
     $("#select_wep").change(function(){
-        
-        //変更した武器を特定（変更した箇所,装備のリスト）
-        var gear = gearsbst("#select_wep",weapons); 
-
-        //マテリアを消す（特定した武器,マテリアのclass）
-        materiaDisplayDone(gear,".select_wepmate");
-
-        //サブステ大元のリストと表示を変更
-        substatus.forEach(function(sbst){
-            gearTotal(allstatus["gear_total"][sbst],allstatus["wep"][sbst],gear[sbst+"_status"],sbst,"wep");
-        });
-        //食事の値を再計算
-        foodSet(); 
-        //合計値を再計算
-        totalPoint();
-
-
-    });
+        gearset(weapons,"wep");
+    });    
 
     //盾が変更したら実行(基本は武器と同様)
     $("#select_sld").change(function(){
-        var gear = gearsbst("#select_sld",shields); 
-        materiaDisplayDone(gear,".select_sldmate");
-        substatus.forEach(function(sbst){
-            gearTotal(allstatus["gear_total"][sbst],allstatus["sld"][sbst],gear[sbst+"_status"],sbst,"sld");
-        });
-        foodSet();
-        totalPoint(); 
+        gearset(shields,"sld"); 
     });
 
     // 以下同
     $("#select_hea").change(function(){
-        var gear = gearsbst("#select_hea",headgears); 
-        materiaDisplayDone(gear,".select_heamate");
-        substatus.forEach(function(sbst){
-            gearTotal(allstatus["gear_total"][sbst],allstatus["hea"][sbst],gear[sbst+"_status"],sbst,"hea");
-
-        });
-        foodSet();
-        totalPoint(); 
+        gearset(headgears,"hea"); 
     });
 
     $("#select_bod").change(function(){
-        var gear = gearsbst("#select_bod",bodygears); 
-        materiaDisplayDone(gear,".select_bodmate");
-        substatus.forEach(function(sbst){
-            gearTotal(allstatus["gear_total"][sbst],allstatus["bod"][sbst],gear[sbst+"_status"],sbst,"bod");
-        });
-        foodSet();
-        totalPoint(); 
+        gearset(bodygears,"bod");
     });
 
     $("#select_han").change(function(){
-        var gear = gearsbst("#select_han",handgears); 
-        materiaDisplayDone(gear,".select_hanmate");
-        substatus.forEach(function(sbst){
-            gearTotal(allstatus["gear_total"][sbst],allstatus["han"][sbst],gear[sbst+"_status"],sbst,"han");
-        });
-        foodSet();
-        totalPoint(); 
+        gearset(handgears,"han");
     });
 
     $("#select_wei").change(function(){
-        var gear = gearsbst("#select_wei",waistgears); 
-        materiaDisplayDone(gear,".select_weimate");
-        substatus.forEach(function(sbst){
-            gearTotal(allstatus["gear_total"][sbst],allstatus["wei"][sbst],gear[sbst+"_status"],sbst,"wei");
-        });
-        foodSet();
-        totalPoint(); 
+        gearset(waistgears,"wei");
     });
 
     $("#select_leg").change(function(){
-        var gear = gearsbst("#select_leg",leggears); 
-        materiaDisplayDone(gear,".select_legmate");
-        substatus.forEach(function(sbst){
-            gearTotal(allstatus["gear_total"][sbst],allstatus["leg"][sbst],gear[sbst+"_status"],sbst,"leg");
-        });
-        foodSet();
-        totalPoint(); 
+        gearset(leggears,"leg");
     });
 
     $("#select_fee").change(function(){
-        var gear = gearsbst("#select_fee",feetgears); 
-        materiaDisplayDone(gear,".select_feemate");
-        substatus.forEach(function(sbst){
-            gearTotal(allstatus["gear_total"][sbst],allstatus["fee"][sbst],gear[sbst+"_status"],sbst,"fee");
-        });
-        foodSet();
-        totalPoint();         
+        gearset(feetgears,"fee");        
     });
 
     $("#select_ear").change(function(){
-        var gear = gearsbst("#select_ear",earringgears); 
-        materiaDisplayDone(gear,".select_earmate");
-        substatus.forEach(function(sbst){
-            gearTotal(allstatus["gear_total"][sbst],allstatus["ear"][sbst],gear[sbst+"_status"],sbst,"ear");
-        });
-        foodSet();
-        totalPoint();        
+        gearset(earringgears,"ear");       
     });
 
     $("#select_nec").change(function(){
-        var gear = gearsbst("#select_nec",necklacegears); 
-        materiaDisplayDone(gear,".select_necmate");
-        substatus.forEach(function(sbst){
-            gearTotal(allstatus["gear_total"][sbst],allstatus["nec"][sbst],gear[sbst+"_status"],sbst,"nec");
-        });
-        foodSet();
-        totalPoint();         
+        gearset(necklacegears,"nec");      
     });
 
     $("#select_bra").change(function(){
-        var gear = gearsbst("#select_bra",braceletgears); 
-        materiaDisplayDone(gear,".select_bramate");
-        substatus.forEach(function(sbst){
-            gearTotal(allstatus["gear_total"][sbst],allstatus["bra"][sbst],gear[sbst+"_status"],sbst,"bra");
-        });
-        foodSet();
-        totalPoint();        
+        gearset(braceletgears,"bra");       
     });
 
     $("#select_rin1").change(function(){
-        materiaDisplay("#select_rin1",ringgears,".select_rin1mate");
-        var gear = gearsbst("#select_rin1",ringgears); 
-        materiaDisplayDone(gear,".select_rin1mate");
-        substatus.forEach(function(sbst){
-            gearTotal(allstatus["gear_total"][sbst],allstatus["rin1"][sbst],gear[sbst+"_status"],sbst,"rin1");
-        });
-        foodSet();
-        totalPoint();         
+        gearset(ringgears,"rin1");       
     });
 
     $("#select_rin2").change(function(){
-        var gear = gearsbst("#select_rin2",ringgears); 
-        materiaDisplayDone(gear,".select_rin2mate");
-        substatus.forEach(function(sbst){
-            gearTotal(allstatus["gear_total"][sbst],allstatus["rin2"][sbst],gear[sbst+"_status"],sbst,"rin2");
-        });
-        foodSet();
-        totalPoint();        
+        gearset(ringgears,"rin2");
     });
 
     // 食事
@@ -478,6 +414,31 @@ $(function() {
     });
 
 
+    // 装備が変更された際に実行される関数
+    function gearset(list,item){
+
+        var item_id = "#select_"+item;
+        var item_class = ".select_"+item+"mate";
+            
+        //変更した武器を特定（変更した箇所,装備のリスト）
+        var gear = gearsbst(item_id,list); 
+        // ---が選択された時の動作
+        if(gear==undefined){
+            gear = nulls[0];
+        }
+
+        //マテリアを消す（特定した武器,マテリアのclass）
+        materiaDisplayDone(gear,item_class);
+
+        //サブステ大元のリストと表示を変更
+        substatus.forEach(function(sbst){
+            gearTotal(allstatus["gear_total"][sbst],allstatus[item][sbst],gear[sbst+"_status"],sbst,item);
+        });
+        //食事の値を再計算
+        foodSet(); 
+        //合計値を再計算
+        totalPoint();
+    }
     
     //装備が変更された際に合計値が変更される
     function gearTotal(total,before,after,sbst,gear){
@@ -502,11 +463,16 @@ $(function() {
 
     function foodSet(){
         var gear = gearsbst("#select_foo",foods);
+        //食事を選択していなかったら0を挿入（値0の食事）
+        if(gear==undefined){
+            gear = foods[0];
+        }
+
         substatus.forEach(function(sbst){
             if(sbst!="main"){
                 //食事によるサブステの上昇値を計算
                 var up_status = allstatus["gear_total"][sbst] *  gear[sbst+"_status"] * 0.01 ; 
-               
+                                
                 if(up_status>=gear[sbst+"_status_limit"]){
                     allstatus["foo"][sbst] = gear[sbst+"_status_limit"] //上限値より大きければ、上限値まで
                 }else{
@@ -520,7 +486,6 @@ $(function() {
 
 
 });
-
 
 
 //プルダウンリストの作成関数

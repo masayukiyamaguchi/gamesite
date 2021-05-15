@@ -13,9 +13,8 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UserSeeder::class);
         $this->call(ScreenShotsSeeder::class);
-        $this->call(UserSeeder::class);
-        $this->call(ScreenShotsSeeder::class);
         $this->call(BlogsSeeder::class);
+        $this->call(Bodygear::class);
         $this->call(Braceletgears::class);
         $this->call(Earringgears::class);
         $this->call(Feetgears::class);
@@ -31,6 +30,7 @@ class DatabaseSeeder extends Seeder
         $this->call(Shields::class);
         $this->call(Waistgears::class);
         $this->call(Weapons::class);
+        $this->call(Nulls::class);
 
     }
 }

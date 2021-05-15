@@ -19,7 +19,21 @@ class CreateJobsTable extends Migration
             $table->string('role');
             $table->string('name');
             $table->string('main_status');
-            $table->string('job_num');
+            $table->integer('job_num');
+            $table->integer('hp');
+            $table->integer('str');
+            $table->integer('dex');
+            $table->integer('vit');
+            $table->integer('int');
+            $table->integer('mnd');
+            $table->integer('crt');
+            $table->integer('dir');
+            $table->integer('det');
+            $table->integer('sks');
+            $table->integer('sps');
+            $table->integer('ten');
+            $table->integer('pie');
+            $table->string('bounus');
             $table->timestamps();
         });
     }

@@ -371,7 +371,7 @@
     <div class="select_mea_div">
         <p>食事：
         <select name="foo" class="select_mea" id="select_foo">
-        <option value="---">---</option>
+        
 
         @foreach($foods as $food)
             <option value="{{$food['id']}}">{{$food['item_name']}}</option>
