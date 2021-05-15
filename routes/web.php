@@ -44,6 +44,8 @@ Route::get('/contact/lists/',"ContactLists@index")->name("contactlists");
 //装備シミュレーター
 Route::get('/gear/',"GearController@index")->name("gear");
 Route::get('/gear/selectjob/',"GearController@selectjob")->name("gearselectjob");
+Route::get('/gear/selectrace/',"GearController@selectrace")->name("gearselectrace");
+
 
 
 //テスト用

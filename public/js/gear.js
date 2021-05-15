@@ -2,6 +2,7 @@ $(function() {
 
             // グローバル変数として定義
             //各装備の変数を用意
+            var job_status = [];
             var weapons = [];
             var shields = [];
             var headgears = [];
@@ -17,15 +18,17 @@ $(function() {
             var foods = [];
             var nulls = [];
 
+            var  race_cor = [];
+
             var chara_status = {
-                hp:7863,
+                hp:0,
                 mp:10000,
-                str:342,
-                dex:322,
-                vit:422,
-                int:207,
-                mnd:339,                                
-                bap:0,
+                str:0,
+                dex:0,
+                vit:0,
+                int:0,
+                mnd:0,                                
+                vap:0,
                 aa:0,
                 aatime:0,
                 crt:380,
@@ -34,7 +37,7 @@ $(function() {
                 sks:380,
                 sps:380,
                 ten:380,
-                pie:240,
+                pie:340,
             }
 
             var allstatus = {
@@ -58,7 +61,7 @@ $(function() {
 
             var gears = ["wep","sld","hea","bod","han","wei","leg","fee","ear","nec","bra","rin1","rin2"];
             var substatus = ["main","crt","dir","det","sks","sps","ten","pie","vit"];
-
+            var charsts = ["hp","str","dex","vit","int","mnd"];
 
 
     // ジョブが選択されたら実行
@@ -85,6 +88,7 @@ $(function() {
         .done(function(data) {
             // Laravel内で処理された結果がdataに入って返ってくる
             //毎回中身は空っぽにしてから入れる。
+            job_status = [];
             weapons = [];
             shields = [];
             headgears = [];
@@ -98,8 +102,12 @@ $(function() {
             braceletgears = [];
             ringgears = [];
             foods = [];
-            //データベースからの情報を各変数へ割り振り
 
+            //データベースからの情報を各変数へ割り振り
+            //ジョブのデータ
+            job_status　= data[0];
+
+            //装備のデータ
             data.forEach(function(data){
                 switch(data["location"]){
                     case "武器":
@@ -165,8 +173,6 @@ $(function() {
 
 
             // 挿入された装備に応じてマテリアの表示・非表示
-            console.log(bodygears[0]);
-            
             materiaDisplayDone(weapons[0],".select_wepmate");
             if(selectjob=="pld"){
                materiaDisplayDone(shields[0],".select_sldmate");
@@ -260,7 +266,16 @@ $(function() {
 
             });
 
+            //ジョブが変わったら、charの基礎値を変更
+            charsts.forEach(function(charst){
+                chara_status[charst] = job_status[charst];
+             });
+
+            // 最後に、ステータスの表示を更新(ジョブの基礎ステータス、種族の補正値、装備の合計ステータス、選択中のジョブ)
+            displayStatus(chara_status,race_cor,allstatus["total"],$("#select_job").val());
+
         })
+        
         // Ajaxリクエスト失敗時の処理
         .fail(function(data) {
             alert('Ajaxリクエスト失敗');
@@ -344,12 +359,12 @@ $(function() {
 
             default:
 
-
             break;
         }
 
 
-    });
+
+    });　//ジョブが選択されたら　ここまで
 
     
     //武器が変更したら実行
@@ -484,6 +499,80 @@ $(function() {
         });   
     }
 
+
+    // 種族が選択されたら実行
+    $(".select_race").change(function(){
+        // 変更された内容を抽出        
+        var selectrace = $(".select_race").val();
+        // 非同期処理
+        $.ajaxSetup({
+            headers: {
+              "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+          });
+
+        $.ajax({
+            url: '/gear/selectrace/',//root
+            type: 'get',//リクエストタイプ
+            data: {
+                race:selectrace
+            },//Laravelに渡すデータ
+        })
+
+        // Ajaxリクエスト成功時の処理
+        .done(function(race){            
+            race_cor = race;
+        })
+
+         // Ajaxリクエスト失敗時の処理
+        .fail(function(data) {
+            alert('Ajaxリクエスト失敗');
+        });
+
+       
+
+    });　//種族が選択されたら　ここまで
+
+
+
+    //ステータスを表示
+    function displayStatus(chara,race,gear,job){
+        //HPを計算,表示（装備vitと種族vit分のHPをジョブ基礎HPへプラス）
+        var total_vit = gear["vit"] + race["vit"];
+        var hp_sum = parseInt(chara["hp"] + total_vit * 31.5,10);
+        $("#st_hp").text(hp_sum);
+
+
+        $("#st_mp").text(chara["mp"]);
+        $("#st_str").text(chara["str"]);
+        $("#st_int").text(chara["int"]);
+        $("#st_dex").text(chara["dex"]);
+        $("#st_mnd").text(chara["mnd"]);
+        $("#st_vit").text(chara["vit"]);
+        $("#st_vap").text(chara["vap"]);
+        $("#st_aa").text(chara["aa"]);
+        $("#st_aatime").text(chara["aatime"]);
+        $("#st_crt").text(chara["crt"]);
+        $("#st_crt_par").text();
+        $("#st_crt_mag").text();
+        $("#st_dir").text(chara["dir"]);
+        $("#st_dir_par").text();
+        $("#st_dir_mag").text();
+        $("#st_det").text(chara["det"]);
+        $("#st_det_mag").text();
+        $("#st_sks").text(chara["sks"]);
+        $("#st_sks_gcd").text();
+        $("#st_sks_mag").text();
+        $("#st_sps").text(chara["sps"]);
+        $("#st_sps_gcd").text();
+        $("#st_sps_mag").text();
+        $("#st_ten").text(chara["ten"]);
+        $("#st_ten_mag").text();
+        $("#st_pie").text(chara["pie"]);
+        $("#st_pie_point").text();
+        $("#score").text();
+      
+    }
 
 });
 

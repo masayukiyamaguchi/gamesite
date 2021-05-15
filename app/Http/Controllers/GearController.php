@@ -46,6 +46,7 @@ class GearController extends Controller
         $job = $request->job;
 
         // 各内容を受け取る
+        $job_status = Job::where("name","like",$job)->get();
         $weapons = Weapon::where("equipable_job_name",'like',"%$job%")->get();
         $shields = Shield::where("equipable_job_name",'like',"%$job%")->get();
         $headgears = Headgear::where("equipable_job_name",'like',"%$job%")->get();
@@ -64,6 +65,7 @@ class GearController extends Controller
 
         //jsonをデコードして配列を結合 jsonをphpで扱える変数に変換
         $alldata = array_merge_recursive(
+            json_decode($job_status),//必ず1番目に
             json_decode($weapons),
             json_decode($shields),
             json_decode($headgears),
@@ -82,6 +84,19 @@ class GearController extends Controller
 
         // 値を返す
         return $alldata;
+    }
+
+
+    public function selectrace(Request $request){
+        //種族の情報を受け取る
+        $race = $request->race;
+
+        // 各内容を受け取る
+        $racedata = Race::where("name","like",$race)->get();
+
+        // 値を返す(多次元配列のため0返し)
+        return $racedata[0];
+
     }
     
 }

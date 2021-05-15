@@ -427,30 +427,30 @@
     <table class="main_status">
         <tr>
             <td class="l_table">HP:</td>
-            <td class="r_table">500</td>
+            <td class="r_table" id="st_hp"></td>
             <td class="l_table">MP:</td>
-            <td class="r_table">10000</td>
+            <td class="r_table" id="st_mp"></td>
 
         </tr>
 
         <tr>
             <td class="l_table">STR:</td>
-            <td class="r_table">500</td>
+            <td class="r_table" id="st_str"></td>
             <td class="l_table">INT:</td>
-            <td class="r_table">500</td>
+            <td class="r_table" id="st_int"></td>
 
         </tr> 
 
         <tr>
             <td class="l_table">DEX:</td>
-            <td class="r_table">500</td>
+            <td class="r_table" id="st_dex"></td>
             <td class="l_table">MND:</td>
-            <td class="r_table">500</td>
+            <td class="r_table" id="st_mnd"></td>
         </tr> 
 
         <tr>
             <td class="l_table">VIT:</td>
-            <td class="r_table">500</td>
+            <td class="r_table" id="st_vit"></td>
         </tr>
        
     </table>
@@ -460,11 +460,11 @@
     <table class="weapon_bap">
         <tr>
             <td>基本性能:</td>
-            <td class="weapon_bap_value">500</td>
+            <td class="weapon_bap_value" id="st_vap"></td>
             <td>AA:</td>
-            <td class="weapon_bap_value">500</td>
+            <td class="weapon_bap_value" id="st_aa"></td>
             <td>攻撃間隔:</td>
-            <td class="weapon_bap_value">500</td>
+            <td class="weapon_bap_value" id="st_aatime"></td>
         </tr>
 
     </table>
@@ -474,75 +474,75 @@
     <table class="sub_status">
         <tr class="crt_table">
             <td class="sub_l_table sub_status_wid1">クリ：</td>
-            <td class="sub_r_table sub_status_wid2">500</td>
+            <td class="sub_r_table sub_status_wid2" id="st_crt"></td>
             <td class="sub_l_table sub_status_wid3">クリ発生率：</td>
-            <td class="sub_r_table sub_status_wid4">500</td>
+            <td class="sub_r_table sub_status_wid4" id="st_crt_par"></td>
         </tr>
         <tr class="crt_table">
             <td class="sub_l_table"></td>
             <td class="sub_r_table"></td>
             <td class="sub_l_table">クリ倍率：</td>
-            <td class="sub_r_table">50000</td>
+            <td class="sub_r_table" id="st_crt_mag"></td>
         </tr>
         <tr class="dir_table">
             <td class="sub_l_table">DH：</td>
-            <td class="sub_r_table">500</td>
+            <td class="sub_r_table" id="st_dir"></td>
             <td class="sub_l_table">DH発生率：</td>
-            <td class="sub_r_table">500</td>
+            <td class="sub_r_table" id="st_dir_par"></td>
         </tr>
         <tr class="dir_table">
             <td class="sub_l_table"></td>
             <td class="sub_r_table"></td>
             <td class="sub_l_table">DH倍率：</td>
-            <td class="sub_r_table">500</td>
+            <td class="sub_r_table" id="st_dir_mag"></td>
         </tr>
         <tr class="det_table">
             <td class="sub_l_table">意思：</td>
-            <td class="sub_r_table">500</td>
+            <td class="sub_r_table" id="st_det"></td>
             <td class="sub_l_table">意思倍率：</td>
-            <td class="sub_r_table">500</td>
+            <td class="sub_r_table" id="st_det_mag"></td>
         </tr>
         <tr class="sks_table">
             <td class="sub_l_table">ｽｷｽﾋﾟ：</td>
-            <td class="sub_r_table">500</td>
+            <td class="sub_r_table" id="st_sks"></td>
             <td class="sub_l_table">GCD：</td>
-            <td class="sub_r_table">500</td>
+            <td class="sub_r_table" id="st_sks_gcd"></td>
         </tr>
         <tr class="sks_table">
             <td class="sub_l_table"></td>
             <td class="sub_r_table"></td>
             <td class="sub_l_table">ｽｷｽﾋﾟ倍率：</td>
-            <td class="sub_r_table">500</td>
+            <td class="sub_r_table" id="st_sks_mag"></td>
         </tr>
         <tr class="sps_table">
             <td class="sub_l_table">ｽﾍﾟｽﾋﾟ：</td>
-            <td class="sub_r_table">500</td>
+            <td class="sub_r_table" id="st_sps"></td>
             <td class="sub_l_table">GCD：</td>
-            <td class="sub_r_table">500</td>
+            <td class="sub_r_table" id="st_sps_gcd"></td>
         </tr>
         <tr class="sps_table">
             <td class="sub_l_table"></td>
             <td class="sub_r_table"></td>
             <td class="sub_l_table">ｽﾍﾟｽﾋﾟ倍率：</td>
-            <td class="sub_r_table">500</td>
+            <td class="sub_r_table" id="st_sps_mag"></td>
         </tr>
         <tr class="ten_table">
             <td class="sub_l_table">不屈：</td>
-            <td class="sub_r_table">500</td>
+            <td class="sub_r_table" id="st_ten"></td>
             <td class="sub_l_table">不屈倍率：</td>
-            <td class="sub_r_table">500</td>
+            <td class="sub_r_table" id="st_ten_mag"></td>
         </tr>
         <tr class="pie_table">
             <td class="sub_l_table">信仰：</td>
-            <td class="sub_r_table">500</td>
+            <td class="sub_r_table" id="st_pie"></td>
             <td class="sub_l_table">MP回復量：</td>
-            <td class="sub_r_table">500/3s</td>
+            <td class="sub_r_table" id="st_pie_point">0/3s</td>
         </tr>
 
     </table>
     
     <p>
-        <div class="sample-box-13">3254</div>        
+        <div class="sample-box-13" id="score">3254</div>        
     </p>
 
 </div>
