@@ -65,13 +65,13 @@
               @for($i=1;$i<=5;$i++)
                 <select name="{{$gear['mate_name']}}{{$i}}" class="select_mate select_{{$gear['mate_name']}}{{$i}}">
                 <option value="non">---</option>
-                <option value="crt">クリ</option>
-                <option value="dir">DH</option>
-                <option value="det">意思</option>
-                <option value="sks">SS</option>
-                <option value="sps">SS</option>
-                <option value="ten">不屈</option>
-                <option value="pie">信仰</option>
+                <option class="crt_mate" value="crt">クリ</option>
+                <option class="dir_mate" value="dir">DH</option>
+                <option class="det_mate" value="det">意思</option>
+                <option class="sks_mate" value="sks">SS</option>
+                <option class="sps_mate" value="sps">SS</option>
+                <option class="ten_mate" value="ten">不屈</option>
+                <option class="pie_mate" value="pie">信仰</option>
                 </select>
               @endfor
               </p>

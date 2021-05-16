@@ -672,3 +672,9 @@ h3{
 .subst_vit{
 
 }
+
+/* サブステを赤くする */
+.red{
+    color: red;
+    font-weight: bold;
+}

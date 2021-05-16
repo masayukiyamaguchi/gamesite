@@ -18,8 +18,10 @@ $(function() {
             var foods = [];
             var nulls = [];
 
-            var  race_cor = [];
+            //種族値、選択されていない場合を考慮し初期化
+            var  race_cor = {str:0,dex:0,vit:0,int:0,mnd:0}
 
+            //キャラの基礎値を挿れておく、メインステはジョブによって異なる
             var chara_status = {
                 hp:0,
                 mp:10000,
@@ -40,6 +42,25 @@ $(function() {
                 pie:340,
             }
 
+            //マテリア値
+            var allmaterias = {
+                wep:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                hea:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                sld:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                bod:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                han:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                wei:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                leg:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                fee:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                ear:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                nec:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                bra:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                rin1:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                rin2:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+                materia_total:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0}
+            }
+
+            // 各装備のサブステテーブル
             var allstatus = {
                 wep:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
                 hea:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
@@ -59,6 +80,13 @@ $(function() {
                 total:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0}           
             };
 
+            //初期設定のための0飯を用意
+            var food0 = {vit_status:0,vit_status_limit:0,crt_status:0,crt_status_limit:0,dir_status:0,dir_status_limit:0,det_status:0,det_status_limit:0,sks_status:0,sks_status_limit:0,sps_status:0,sps_status_limit:0,ten_status:0,ten_status_limit:0,pie_status:0,pie_status_limit:0}
+
+            //サブステ最大値の配列
+            var sbst_limit = {wep:0,sld:0,hea:0,bod:0,han:0,wei:0,leg:0,fee:0,ear:0,nec:0,bra:0,rin1:0,rin2:0}
+                
+            // forEachを回すために配列を用意
             var gears = ["wep","sld","hea","bod","han","wei","leg","fee","ear","nec","bra","rin1","rin2"];
             var substatus = ["main","crt","dir","det","sks","sps","ten","pie","vit"];
             var charsts = ["hp","str","dex","vit","int","mnd"];
@@ -102,6 +130,16 @@ $(function() {
             braceletgears = [];
             ringgears = [];
             foods = [];
+
+            //マテリアの設定をリセット
+            materiaReset();
+            refreshSubStatus(allmaterias);
+
+            //食事設定をリセット
+            foodReset(substatus);
+
+            //マテリアの色をリセット
+            sbstColorRset(substatus,gears);
 
             //データベースからの情報を各変数へ割り振り
             //ジョブのデータ
@@ -225,8 +263,25 @@ $(function() {
                 allstatus["gear_total"][sbst] += ringgears[0][sbst+"_status"];
                 allstatus["gear_total"][sbst] += ringgears[0][sbst+"_status"]; 
 
-            })           
 
+            }) 
+            // サブステ最大値の初期値を設定
+            sbst_limit["wep"] = weapons[0]["max_status"];
+            if(selectjob=="pld"){
+                sbst_limit["sld"] = shields[0]["max_status"];
+            }            
+            sbst_limit["hea"] = headgears[0]["max_status"];
+            sbst_limit["bod"] = bodygears[0]["max_status"];
+            sbst_limit["han"] = handgears[0]["max_status"];
+            sbst_limit["wei"] = waistgears[0]["max_status"];
+            sbst_limit["leg"] = leggears[0]["max_status"];
+            sbst_limit["fee"] = feetgears[0]["max_status"];
+            sbst_limit["ear"] = earringgears[0]["max_status"];
+            sbst_limit["nec"] = necklacegears[0]["max_status"];
+            sbst_limit["bra"] = braceletgears[0]["max_status"];
+            sbst_limit["rin1"] = ringgears[0]["max_status"];
+            sbst_limit["rin2"] = ringgears[0]["max_status"];
+            
             
             //プルダウンリストの作成（関数）
             createSlect("#select_wep",weapons);
@@ -286,11 +341,18 @@ $(function() {
         switch($("#select_job").val()){
 
             case "pld":
+                //サブステの表示非表示
                 displayBlock(".select_sld,.select_sldmate1,.select_sldmate2,.select_sldmate3,.select_sldmate4,.select_sldmate5");
                 displayBlock(".subst_sks");
                 displayNone(".subst_sps");
                 displayBlock(".subst_ten");
                 displayNone(".subst_pie");
+                //マテリアの選択部分の表示非表示
+                displayBlock(".sks_mate");
+                displayNone(".sps_mate");
+                displayBlock(".ten_mate");
+                displayNone(".pie_mate");
+                //メインステの変更
                 $("#subst_main").text("STR");
 
             break;
@@ -303,6 +365,10 @@ $(function() {
                 displayNone(".subst_sps");
                 displayBlock(".subst_ten");
                 displayNone(".subst_pie");
+                displayBlock(".sks_mate");
+                displayNone(".sps_mate");
+                displayBlock(".ten_mate");
+                displayNone(".pie_mate");
                 testSpace("#tbl_subst_sld_main,#tbl_subst_sld_crt,#tbl_subst_sld_dir,#tbl_subst_sld_det,#tbl_subst_sld_sks,#tbl_subst_sld_sps,#tbl_subst_sld_ten,#tbl_subst_sld_pie,#tbl_subst_sld_vit");
                 $("#subst_main").text("STR");
             break;
@@ -315,6 +381,10 @@ $(function() {
                 displayNone(".subst_sps");
                 displayNone(".subst_ten");
                 displayNone(".subst_pie");
+                displayBlock(".sks_mate");
+                displayNone(".sps_mate");
+                displayNone(".ten_mate");
+                displayNone(".pie_mate");
                 testSpace("#tbl_subst_sld_main,#tbl_subst_sld_crt,#tbl_subst_sld_dir,#tbl_subst_sld_det,#tbl_subst_sld_sks,#tbl_subst_sld_sps,#tbl_subst_sld_ten,#tbl_subst_sld_pie,#tbl_subst_sld_vit");
                 $("#subst_main").text("STR");                
             break;
@@ -328,6 +398,10 @@ $(function() {
                 displayNone(".subst_sps");
                 displayNone(".subst_ten");
                 displayNone(".subst_pie");
+                displayBlock(".sks_mate");
+                displayNone(".sps_mate");
+                displayNone(".ten_mate");
+                displayNone(".pie_mate");
                 testSpace("#tbl_subst_sld_main,#tbl_subst_sld_crt,#tbl_subst_sld_dir,#tbl_subst_sld_det,#tbl_subst_sld_sks,#tbl_subst_sld_sps,#tbl_subst_sld_ten,#tbl_subst_sld_pie,#tbl_subst_sld_vit");
                 $("#subst_main").text("DEX");                
                 break;
@@ -341,6 +415,10 @@ $(function() {
                 displayBlock(".subst_sps");
                 displayNone(".subst_ten");
                 displayNone(".subst_pie");
+                displayNone(".sks_mate");
+                displayBlock(".sps_mate");
+                displayNone(".ten_mate");
+                displayNone(".pie_mate");
                 testSpace("#tbl_subst_sld_main,#tbl_subst_sld_crt,#tbl_subst_sld_dir,#tbl_subst_sld_det,#tbl_subst_sld_sks,#tbl_subst_sld_sps,#tbl_subst_sld_ten,#tbl_subst_sld_pie,#tbl_subst_sld_vit");
                 $("#subst_main").text("INT");                
                 break;
@@ -353,6 +431,10 @@ $(function() {
                 displayBlock(".subst_sps");
                 displayNone(".subst_ten");
                 displayBlock(".subst_pie");
+                displayNone(".sks_mate");
+                displayBlock(".sps_mate");
+                displayNone(".ten_mate");
+                displayBlock(".pie_mate");
                 testSpace("#tbl_subst_sld_main,#tbl_subst_sld_crt,#tbl_subst_sld_dir,#tbl_subst_sld_det,#tbl_subst_sld_sks,#tbl_subst_sld_sps,#tbl_subst_sld_ten,#tbl_subst_sld_pie,#tbl_subst_sld_vit");
                 $("#subst_main").text("MND");
             break;
@@ -362,7 +444,7 @@ $(function() {
             break;
         }
 
-
+        recalculation();
 
     });　//ジョブが選択されたら　ここまで
 
@@ -445,58 +527,80 @@ $(function() {
         //マテリアを消す（特定した武器,マテリアのclass）
         materiaDisplayDone(gear,item_class);
 
-        //サブステ大元のリストと表示を変更
+        //武器の数値を合計値に入れる
         substatus.forEach(function(sbst){
-            gearTotal(allstatus["gear_total"][sbst],allstatus[item][sbst],gear[sbst+"_status"],sbst,item);
+            gearTotal(allstatus["gear_total"][sbst],allstatus[item][sbst],gear[sbst+"_status"],sbst,item,allmaterias[item][sbst]);
         });
+
+        //サブステ最大値更新
+        sbst_limit[item] = gear["max_status"];
+
+        //最終計算
+        recalculation();
+
+        
+    }
+
+    //最終計算
+    function recalculation(){
         //食事の値を再計算
         foodSet(); 
         //合計値を再計算
-        totalPoint();
+        totalPoint();            
     }
     
     //装備が変更された際に合計値が変更される
-    function gearTotal(total,before,after,sbst,gear){
+    function gearTotal(total,before,after,sbst,gear,materia){
+        //裏の値の計算
         total -= before;  //現在のトータルから現在の装備ステ値を引く
         total += after;  //現在のトータルに変更された装備のステ値をプラス
-        $("#tbl_subst_"+gear+"_"+sbst).text(after);    //変更した装備のステ値を出力       
-        allstatus[gear][sbst] = after;            //装備のステ値を変更
-        allstatus["gear_total"][sbst] = total;    //トータルのステ値を変更   
-      
-    }
+        allstatus["gear_total"][sbst] = total;    //トータルのステ値を更新
 
+        allstatus[gear][sbst] = after;  //装備のステ値を変更(装備の部分のみ変更)        
+
+        //画面表示の計算
+        gaersum = after + materia;　//変更後の装備の値にマテリア設定値を合計        
+        $("#tbl_subst_"+gear+"_"+sbst).text(gaersum);    //変更した装備のステ値を出力       
+          
+    }
+    
     //合計値を更新と表示
     function totalPoint(){
         substatus.forEach(function(sbst){
             //装備の合計値と食事の合計値を合計する
-            total_Point = allstatus["gear_total"][sbst] + allstatus["foo"][sbst];
+            total_Point = allstatus["gear_total"][sbst] +allmaterias["materia_total"][sbst] + allstatus["foo"][sbst];
             $("#tbl_subst_total_"+sbst).text(total_Point);  //変更した装備のステ値を出力     
             
-        });           
+        });
+        
     }
 
-
+    // 食事の数値を計算
     function foodSet(){
+        // refreshMaterias(allmaterias);
+        // refreshSubStatus(allstatus);
         var gear = gearsbst("#select_foo",foods);
         //食事を選択していなかったら0を挿入（値0の食事）
         if(gear==undefined){
-            gear = foods[0];
+            gear = food0;
         }
 
         substatus.forEach(function(sbst){
+
             if(sbst!="main"){
                 //食事によるサブステの上昇値を計算
-                var up_status = allstatus["gear_total"][sbst] *  gear[sbst+"_status"] * 0.01 ; 
-                                
+                var up_status = (allstatus["gear_total"][sbst]+allmaterias["materia_total"][sbst]) *  gear[sbst+"_status"] * 0.01 ; 
+           
                 if(up_status>=gear[sbst+"_status_limit"]){
                     allstatus["foo"][sbst] = gear[sbst+"_status_limit"] //上限値より大きければ、上限値まで
                 }else{
                     allstatus["foo"][sbst] = parseInt(up_status, 10); //小数点以下切り捨て     
                 }
                 $("#tbl_subst_foo_"+sbst).text(allstatus["foo"][sbst]);
+                
             }
 
-        });   
+        });
     }
 
 
@@ -522,18 +626,80 @@ $(function() {
         // Ajaxリクエスト成功時の処理
         .done(function(race){            
             race_cor = race;
+            displayStatus(chara_status,race_cor,allstatus["total"],$("#select_job").val());
         })
 
          // Ajaxリクエスト失敗時の処理
         .fail(function(data) {
             alert('Ajaxリクエスト失敗');
-        });
-
-       
+        });       
 
     });　//種族が選択されたら　ここまで
 
 
+
+    // マテリアが選択されたら実行
+    gears.forEach(function(gear){
+        for(i=1;i<=5;i++){            
+            $(".select_"+gear+"mate"+i).change(function(){
+                //選択されたマテリアの内容を確認
+                gearMateriasSum(gear);
+                allMateraisSum();
+
+                //画面の計算
+                substatus.forEach(function(sbst){
+                    gaersum = allstatus[gear][sbst] + allmaterias[gear][sbst];　//変更後の装備の値にマテリア設定値を合計        
+                    $("#tbl_subst_"+gear+"_"+sbst).text(gaersum);    //変更した装備のステ値を出力
+                    
+                    //サブステ最大値を超えてるかのちぇっく
+                    if( checkLimit(gaersum,gear,sbst) ){
+                        $("#tbl_subst_"+gear+"_"+sbst).addClass("red");
+                    }else{
+                        $("#tbl_subst_"+gear+"_"+sbst).removeClass("red");
+                    }
+                });
+
+                //合計値の更新（ご飯、合計）
+                recalculation();
+            });
+        }
+    })
+
+    //装備マテリアの合計値を確認し表示と裏の数字の更新
+    function gearMateriasSum(gear){
+        refreshMaterias(allmaterias[gear]);　//初期化
+            // 5つのマテリア値を計算
+            for(i=1;i<=5;i++){
+                var sbst_mate = $(".select_"+gear+"mate"+i).val();
+                if(i<3){
+                    allmaterias[gear][sbst_mate] += 60;
+                }else{
+                    allmaterias[gear][sbst_mate] += 20;
+                }
+            }
+    }
+
+    //全マテリアの合計値を再計算
+    function allMateraisSum(){
+        refreshMaterias(allmaterias["materia_total"]); //初期化
+        substatus.forEach(function(sbst){
+            gears.forEach(function(gear){
+                allmaterias["materia_total"][sbst] += allmaterias[gear][sbst];
+            });
+        });
+    }
+
+    //サブステの最大値をチェック
+    function checkLimit(gaersum,gear,sbst){
+        // 武器のリミットと現在のサブステ値を比較
+        // リミット以下、サブステがSTR、VITの場合は除外
+        if(gaersum <= sbst_limit[gear] || sbst=="main" || sbst=="vit" ){
+            return false;
+        }else{
+            return true;
+        }
+        
+    }
 
     //ステータスを表示
     function displayStatus(chara,race,gear,job){
@@ -645,6 +811,13 @@ function refreshSubStatus(allstatus){
     });
 }
 
+//マテリア値初期化
+function refreshMaterias(allmaterias){
+    Object.keys(allmaterias).forEach(function(value) {
+        allmaterias[value] = 0;
+    });
+}
+
 
 
 // 変更した装備を特定
@@ -663,6 +836,33 @@ function gearsbst(id,list){
         
     return (item);   
 
+}
+
+//ジョブが変わったら、マテリア設定をリセット
+function materiaReset(){
+    $(".select_mate").val("non");
+       
+}
+
+//ジョブが変わったら、食事設定をリセット
+function foodReset(substatus){
+    // プルダウン表示のnonに
+    $(".select_mea").val("1");
+    
+    // 食事部分のサブステ値表示を0に
+    substatus.forEach(function(sbst){
+        $("#tbl_subst_foo_"+sbst).text(0);
+    });
+        
+}
+
+//ジョブが変わったら、サブステ値の色をリセット
+function sbstColorRset(substatus,gears){
+    substatus.forEach(function(sbst){
+        gears.forEach(function(gear){
+            $("#tbl_subst_"+gear+"_"+sbst).removeClass("red");
+        })
+    })
 }
 
 
