@@ -535,6 +535,10 @@ h3{
     padding-top: 10px;
 }
 
+.sub_status{
+    width: 100%;
+}
+
 .sub_status  tr td{
     padding-top: 3px;
 

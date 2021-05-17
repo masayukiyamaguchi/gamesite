@@ -40,6 +40,7 @@ $(function() {
                 sps:380,
                 ten:380,
                 pie:340,
+                main_status:"str",
             }
 
             //マテリア値
@@ -77,8 +78,12 @@ $(function() {
                 rin2:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
                 foo:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
                 gear_total:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
-                total:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0}           
+                total:{main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0},
+          
             };
+
+            // どうしてもtotalPointの関数で、totalにgear_totalを渡すとバグるのでもう一つ合計値を用意。
+            var statusTotal = {main:0,crt:0,dir:0,det:0,sks:0,sps:0,ten:0,pie:0,vit:0}
 
             //初期設定のための0飯を用意
             var food0 = {vit_status:0,vit_status_limit:0,crt_status:0,crt_status_limit:0,dir_status:0,dir_status_limit:0,det_status:0,det_status_limit:0,sks_status:0,sks_status_limit:0,sps_status:0,sps_status_limit:0,ten_status:0,ten_status_limit:0,pie_status:0,pie_status_limit:0}
@@ -89,7 +94,7 @@ $(function() {
             // forEachを回すために配列を用意
             var gears = ["wep","sld","hea","bod","han","wei","leg","fee","ear","nec","bra","rin1","rin2"];
             var substatus = ["main","crt","dir","det","sks","sps","ten","pie","vit"];
-            var charsts = ["hp","str","dex","vit","int","mnd"];
+            var charsts = ["hp","str","dex","vit","int","mnd","main_status"];
 
 
     // ジョブが選択されたら実行
@@ -209,23 +214,10 @@ $(function() {
                 }
             })
 
-
-            // 挿入された装備に応じてマテリアの表示・非表示
-            materiaDisplayDone(weapons[0],".select_wepmate");
-            if(selectjob=="pld"){
-               materiaDisplayDone(shields[0],".select_sldmate");
-            }
-            materiaDisplayDone(headgears[0],".select_heamate");
-            materiaDisplayDone(bodygears[0],".select_bodmate");
-            materiaDisplayDone(handgears[0],".select_hanmate");
-            materiaDisplayDone(waistgears[0],".select_weimate");
-            materiaDisplayDone(leggears[0],".select_legmate");
-            materiaDisplayDone(feetgears[0],".select_feemate");
-            materiaDisplayDone(earringgears[0],".select_earmate");
-            materiaDisplayDone(necklacegears[0],".select_necmate");
-            materiaDisplayDone(braceletgears[0],".select_bramate");
-            materiaDisplayDone(ringgears[0],".select_rin1mate");
-            materiaDisplayDone(ringgears[0],".select_rin2mate"); 
+            //デフォ表示武器の基本性能を保管
+            chara_status["vap"] = weapons[0]["physical_p"];
+            chara_status["aa"] = weapons[0]["auto_attack"];
+            chara_status["aatime"] = weapons[0]["attack_interval"];
 
             //挿入された装備に応じてステータスを表示
             refreshSubStatus(allstatus); //初期化
@@ -321,132 +313,182 @@ $(function() {
 
             });
 
+
             //ジョブが変わったら、charの基礎値を変更
             charsts.forEach(function(charst){
                 chara_status[charst] = job_status[charst];
-             });
+             });           
+
+
+            //ジョブが変わったらご飯補正と合計値の再計算
+            recalculation();
 
             // 最後に、ステータスの表示を更新(ジョブの基礎ステータス、種族の補正値、装備の合計ステータス、選択中のジョブ)
-            displayStatus(chara_status,race_cor,allstatus["total"],$("#select_job").val());
+            displayStatus(chara_status,race_cor,statusTotal,$("#select_job").val());
 
-        })
+
+            // ジョブごとに表示するサブステを変える
+            switch($("#select_job").val()){
+
+                case "pld":
+                    //サブステの表示非表示
+                    displayBlock(".select_sld,.select_sldmate1,.select_sldmate2,.select_sldmate3,.select_sldmate4,.select_sldmate5");
+                    displayBlock(".subst_sks");
+                    displayNone(".subst_sps");
+                    displayBlock(".subst_ten");
+                    displayNone(".subst_pie");
+                    //マテリアの選択部分の表示非表示
+                    displayBlock(".sks_mate");
+                    displayNone(".sps_mate");
+                    displayBlock(".ten_mate");
+                    displayNone(".pie_mate");
+                    //メインステの変更
+                    $("#subst_main").text("STR");
+                    //サブステ合計値の表示非表示
+                    displayBlock(".sks_table");
+                    displayNone(".sps_table");
+                    displayBlock(".ten_table");
+                    displayNone(".pie_table");
+
+                break;
+
+                case "war":
+                case "drk":
+                case "gnb":
+                    displayNone(".select_sld,.select_sldmate1,.select_sldmate2,.select_sldmate3,.select_sldmate4,.select_sldmate5");
+                    displayBlock(".subst_sks");
+                    displayNone(".subst_sps");
+                    displayBlock(".subst_ten");
+                    displayNone(".subst_pie");
+                    displayBlock(".sks_mate");
+                    displayNone(".sps_mate");
+                    displayBlock(".ten_mate");
+                    displayNone(".pie_mate");
+                    testSpace("#tbl_subst_sld_main,#tbl_subst_sld_crt,#tbl_subst_sld_dir,#tbl_subst_sld_det,#tbl_subst_sld_sks,#tbl_subst_sld_sps,#tbl_subst_sld_ten,#tbl_subst_sld_pie,#tbl_subst_sld_vit");
+                    $("#subst_main").text("STR");
+                    displayBlock(".sks_table");
+                    displayNone(".sps_table");
+                    displayBlock(".ten_table");
+                    displayNone(".pie_table");
+                break;
+
+                case "drg":
+                case "mnk":
+                case "sam":
+                    displayNone(".select_sld,.select_sldmate1,.select_sldmate2,.select_sldmate3,.select_sldmate4,.select_sldmate5");
+                    displayBlock(".subst_sks");
+                    displayNone(".subst_sps");
+                    displayNone(".subst_ten");
+                    displayNone(".subst_pie");
+                    displayBlock(".sks_mate");
+                    displayNone(".sps_mate");
+                    displayNone(".ten_mate");
+                    displayNone(".pie_mate");
+                    testSpace("#tbl_subst_sld_main,#tbl_subst_sld_crt,#tbl_subst_sld_dir,#tbl_subst_sld_det,#tbl_subst_sld_sks,#tbl_subst_sld_sps,#tbl_subst_sld_ten,#tbl_subst_sld_pie,#tbl_subst_sld_vit");
+                    $("#subst_main").text("STR"); 
+                    displayBlock(".sks_table");
+                    displayNone(".sps_table");
+                    displayNone(".ten_table");
+                    displayNone(".pie_table");               
+                break;
+
+                case "nin":
+                case "brd":
+                case "mcn":
+                case "dnc":
+                    displayNone(".select_sld,.select_sldmate1,.select_sldmate2,.select_sldmate3,.select_sldmate4,.select_sldmate5");
+                    displayBlock(".subst_sks");
+                    displayNone(".subst_sps");
+                    displayNone(".subst_ten");
+                    displayNone(".subst_pie");
+                    displayBlock(".sks_mate");
+                    displayNone(".sps_mate");
+                    displayNone(".ten_mate");
+                    displayNone(".pie_mate");
+                    testSpace("#tbl_subst_sld_main,#tbl_subst_sld_crt,#tbl_subst_sld_dir,#tbl_subst_sld_det,#tbl_subst_sld_sks,#tbl_subst_sld_sps,#tbl_subst_sld_ten,#tbl_subst_sld_pie,#tbl_subst_sld_vit");
+                    $("#subst_main").text("DEX");
+                    displayBlock(".sks_table");
+                    displayNone(".sps_table");
+                    displayNone(".ten_table");
+                    displayNone(".pie_table");                  
+                    break;
+
+                case "blm":
+                case "smn":
+                case "rdm":
+                case "blu":                
+                    displayNone(".select_sld,.select_sldmate1,.select_sldmate2,.select_sldmate3,.select_sldmate4,.select_sldmate5");
+                    displayNone(".subst_sks");
+                    displayBlock(".subst_sps");
+                    displayNone(".subst_ten");
+                    displayNone(".subst_pie");
+                    displayNone(".sks_mate");
+                    displayBlock(".sps_mate");
+                    displayNone(".ten_mate");
+                    displayNone(".pie_mate");
+                    testSpace("#tbl_subst_sld_main,#tbl_subst_sld_crt,#tbl_subst_sld_dir,#tbl_subst_sld_det,#tbl_subst_sld_sks,#tbl_subst_sld_sps,#tbl_subst_sld_ten,#tbl_subst_sld_pie,#tbl_subst_sld_vit");
+                    $("#subst_main").text("INT"); 
+                    displayNone(".sks_table");
+                    displayBlock(".sps_table");
+                    displayNone(".ten_table");
+                    displayNone(".pie_table");                 
+                    break;
+
+                case "whm":
+                case "sch":
+                case "ast":
+                    displayNone(".select_sld,.select_sldmate1,.select_sldmate2,.select_sldmate3,.select_sldmate4,.select_sldmate5");
+                    displayNone(".subst_sks");
+                    displayBlock(".subst_sps");
+                    displayNone(".subst_ten");
+                    displayBlock(".subst_pie");
+                    displayNone(".sks_mate");
+                    displayBlock(".sps_mate");
+                    displayNone(".ten_mate");
+                    displayBlock(".pie_mate");
+                    testSpace("#tbl_subst_sld_main,#tbl_subst_sld_crt,#tbl_subst_sld_dir,#tbl_subst_sld_det,#tbl_subst_sld_sks,#tbl_subst_sld_sps,#tbl_subst_sld_ten,#tbl_subst_sld_pie,#tbl_subst_sld_vit");
+                    $("#subst_main").text("MND");
+                    displayNone(".sks_table");
+                    displayBlock(".sps_table");
+                    displayNone(".ten_table");
+                    displayBlock(".pie_table");  
+                break;
+
+                default:
+
+                break;
+            }
+
+        // 挿入された装備に応じてマテリアの表示・非表示
+        materiaDisplayDone(weapons[0],".select_wepmate");
+        if(selectjob=="pld"){
+           materiaDisplayDone(shields[0],".select_sldmate");
+        }
+        materiaDisplayDone(headgears[0],".select_heamate");
+        materiaDisplayDone(bodygears[0],".select_bodmate");
+        materiaDisplayDone(handgears[0],".select_hanmate");
+        materiaDisplayDone(waistgears[0],".select_weimate");
+        materiaDisplayDone(leggears[0],".select_legmate");
+        materiaDisplayDone(feetgears[0],".select_feemate");
+        materiaDisplayDone(earringgears[0],".select_earmate");
+        materiaDisplayDone(necklacegears[0],".select_necmate");
+        materiaDisplayDone(braceletgears[0],".select_bramate");
+        materiaDisplayDone(ringgears[0],".select_rin1mate");
+        materiaDisplayDone(ringgears[0],".select_rin2mate"); 
+
+
+        })        
+
+
         
         // Ajaxリクエスト失敗時の処理
         .fail(function(data) {
             alert('Ajaxリクエスト失敗');
-        });
-
+        });       
         
-        // ジョブごとに表示するサブステを変える
-        switch($("#select_job").val()){
-
-            case "pld":
-                //サブステの表示非表示
-                displayBlock(".select_sld,.select_sldmate1,.select_sldmate2,.select_sldmate3,.select_sldmate4,.select_sldmate5");
-                displayBlock(".subst_sks");
-                displayNone(".subst_sps");
-                displayBlock(".subst_ten");
-                displayNone(".subst_pie");
-                //マテリアの選択部分の表示非表示
-                displayBlock(".sks_mate");
-                displayNone(".sps_mate");
-                displayBlock(".ten_mate");
-                displayNone(".pie_mate");
-                //メインステの変更
-                $("#subst_main").text("STR");
-
-            break;
-
-            case "war":
-            case "drk":
-            case "gnb":
-                displayNone(".select_sld,.select_sldmate1,.select_sldmate2,.select_sldmate3,.select_sldmate4,.select_sldmate5");
-                displayBlock(".subst_sks");
-                displayNone(".subst_sps");
-                displayBlock(".subst_ten");
-                displayNone(".subst_pie");
-                displayBlock(".sks_mate");
-                displayNone(".sps_mate");
-                displayBlock(".ten_mate");
-                displayNone(".pie_mate");
-                testSpace("#tbl_subst_sld_main,#tbl_subst_sld_crt,#tbl_subst_sld_dir,#tbl_subst_sld_det,#tbl_subst_sld_sks,#tbl_subst_sld_sps,#tbl_subst_sld_ten,#tbl_subst_sld_pie,#tbl_subst_sld_vit");
-                $("#subst_main").text("STR");
-            break;
-
-            case "drg":
-            case "mnk":
-            case "sam":
-                displayNone(".select_sld,.select_sldmate1,.select_sldmate2,.select_sldmate3,.select_sldmate4,.select_sldmate5");
-                displayBlock(".subst_sks");
-                displayNone(".subst_sps");
-                displayNone(".subst_ten");
-                displayNone(".subst_pie");
-                displayBlock(".sks_mate");
-                displayNone(".sps_mate");
-                displayNone(".ten_mate");
-                displayNone(".pie_mate");
-                testSpace("#tbl_subst_sld_main,#tbl_subst_sld_crt,#tbl_subst_sld_dir,#tbl_subst_sld_det,#tbl_subst_sld_sks,#tbl_subst_sld_sps,#tbl_subst_sld_ten,#tbl_subst_sld_pie,#tbl_subst_sld_vit");
-                $("#subst_main").text("STR");                
-            break;
-
-            case "nin":
-            case "brd":
-            case "mcn":
-            case "dnc":
-                displayNone(".select_sld,.select_sldmate1,.select_sldmate2,.select_sldmate3,.select_sldmate4,.select_sldmate5");
-                displayBlock(".subst_sks");
-                displayNone(".subst_sps");
-                displayNone(".subst_ten");
-                displayNone(".subst_pie");
-                displayBlock(".sks_mate");
-                displayNone(".sps_mate");
-                displayNone(".ten_mate");
-                displayNone(".pie_mate");
-                testSpace("#tbl_subst_sld_main,#tbl_subst_sld_crt,#tbl_subst_sld_dir,#tbl_subst_sld_det,#tbl_subst_sld_sks,#tbl_subst_sld_sps,#tbl_subst_sld_ten,#tbl_subst_sld_pie,#tbl_subst_sld_vit");
-                $("#subst_main").text("DEX");                
-                break;
-
-            case "blm":
-            case "smn":
-            case "rdm":
-            case "blu":                
-                displayNone(".select_sld,.select_sldmate1,.select_sldmate2,.select_sldmate3,.select_sldmate4,.select_sldmate5");
-                displayNone(".subst_sks");
-                displayBlock(".subst_sps");
-                displayNone(".subst_ten");
-                displayNone(".subst_pie");
-                displayNone(".sks_mate");
-                displayBlock(".sps_mate");
-                displayNone(".ten_mate");
-                displayNone(".pie_mate");
-                testSpace("#tbl_subst_sld_main,#tbl_subst_sld_crt,#tbl_subst_sld_dir,#tbl_subst_sld_det,#tbl_subst_sld_sks,#tbl_subst_sld_sps,#tbl_subst_sld_ten,#tbl_subst_sld_pie,#tbl_subst_sld_vit");
-                $("#subst_main").text("INT");                
-                break;
-
-            case "whm":
-            case "sch":
-            case "ast":
-                displayNone(".select_sld,.select_sldmate1,.select_sldmate2,.select_sldmate3,.select_sldmate4,.select_sldmate5");
-                displayNone(".subst_sks");
-                displayBlock(".subst_sps");
-                displayNone(".subst_ten");
-                displayBlock(".subst_pie");
-                displayNone(".sks_mate");
-                displayBlock(".sps_mate");
-                displayNone(".ten_mate");
-                displayBlock(".pie_mate");
-                testSpace("#tbl_subst_sld_main,#tbl_subst_sld_crt,#tbl_subst_sld_dir,#tbl_subst_sld_det,#tbl_subst_sld_sks,#tbl_subst_sld_sps,#tbl_subst_sld_ten,#tbl_subst_sld_pie,#tbl_subst_sld_vit");
-                $("#subst_main").text("MND");
-            break;
-
-            default:
-
-            break;
-        }
-
-        recalculation();
 
     });　//ジョブが選択されたら　ここまで
+
 
     
     //武器が変更したら実行
@@ -504,10 +546,13 @@ $(function() {
         gearset(ringgears,"rin2");
     });
 
-    // 食事
+
+    // 食事が変更したら実行
     $("#select_foo").change(function(){
         foodSet();
         totalPoint();
+        // STATUSの表示更新
+        displayStatus(chara_status,race_cor,statusTotal,$("#select_job").val());
     });
 
 
@@ -537,6 +582,9 @@ $(function() {
 
         //最終計算
         recalculation();
+
+        // STATUSの表示更新
+        displayStatus(chara_status,race_cor,statusTotal,$("#select_job").val());
 
         
     }
@@ -569,11 +617,12 @@ $(function() {
         substatus.forEach(function(sbst){
             //装備の合計値と食事の合計値を合計する
             total_Point = allstatus["gear_total"][sbst] +allmaterias["materia_total"][sbst] + allstatus["foo"][sbst];
-            $("#tbl_subst_total_"+sbst).text(total_Point);  //変更した装備のステ値を出力     
-            
+            $("#tbl_subst_total_"+sbst).text(total_Point);  //変更した装備のステ値を出力
+            statusTotal[sbst] = total_Point;
         });
         
     }
+
 
     // 食事の数値を計算
     function foodSet(){
@@ -626,7 +675,7 @@ $(function() {
         // Ajaxリクエスト成功時の処理
         .done(function(race){            
             race_cor = race;
-            displayStatus(chara_status,race_cor,allstatus["total"],$("#select_job").val());
+            displayStatus(chara_status,race_cor,statusTotal,$("#select_job").val());
         })
 
          // Ajaxリクエスト失敗時の処理
@@ -661,6 +710,9 @@ $(function() {
 
                 //合計値の更新（ご飯、合計）
                 recalculation();
+
+                //SUTATUSの表示更新
+                displayStatus(chara_status,race_cor,statusTotal,$("#select_job").val());
             });
         }
     })
@@ -701,23 +753,58 @@ $(function() {
         
     }
 
+    // chara:chara_status
+    // race:race_cor
+    // gear:allstatus["total"]
+    // job:$("#select_job").val()
     //ステータスを表示
     function displayStatus(chara,race,gear,job){
-        //HPを計算,表示（装備vitと種族vit分のHPをジョブ基礎HPへプラス）
-        var total_vit = gear["vit"] + race["vit"];
-        var hp_sum = parseInt(chara["hp"] + total_vit * 31.5,10);
+        //HPを計算,表示（装備vitと種族vit分のHPをジョブ基礎HPへプラス 竜騎士＋17）
+        var total_vit = gear["vit"] + race["vit"] + chara["vit"];
+        var hp_sum = parseInt(chara["hp"]  + total_vit * 22.1,10);
         $("#st_hp").text(hp_sum);
 
-
         $("#st_mp").text(chara["mp"]);
-        $("#st_str").text(chara["str"]);
-        $("#st_int").text(chara["int"]);
-        $("#st_dex").text(chara["dex"]);
-        $("#st_mnd").text(chara["mnd"]);
-        $("#st_vit").text(chara["vit"]);
+        
+
+        //メインステ計算　装備合計＋ジョブ特性＋種族補正
+        var total_str = chara["str"] + race["str"];
+        var total_int = chara["int"] + race["int"];
+        var total_dex = chara["dex"] + race["dex"];
+        var total_mnd = chara["mnd"] + race["mnd"];
+        var mainst = chara["main_status"];
+        
+        console.log(chara["main_status"]);
+        
+        // メインステによって場合分け
+        switch(mainst){
+            case "str":
+                total_str += gear["main"];
+                break;
+            case "int":
+                total_int += gear["main"];
+                break;
+            case "dex":
+                total_dex += gear["main"];
+                break;
+            case "mnd":
+                total_mnd += gear["main"];
+                break;
+            default :
+                break;
+        }
+        $("#st_str").text(total_str);
+        $("#st_int").text(total_int);
+        $("#st_dex").text(total_dex);
+        $("#st_mnd").text(total_mnd);
+
+        $("#st_vit").text(total_vit);
+
         $("#st_vap").text(chara["vap"]);
         $("#st_aa").text(chara["aa"]);
         $("#st_aatime").text(chara["aatime"]);
+
+
         $("#st_crt").text(chara["crt"]);
         $("#st_crt_par").text();
         $("#st_crt_mag").text();

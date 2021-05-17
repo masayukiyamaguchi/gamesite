@@ -47,18 +47,18 @@ class GearController extends Controller
 
         // 各内容を受け取る
         $job_status = Job::where("name","like",$job)->get();
-        $weapons = Weapon::where("equipable_job_name",'like',"%$job%")->get();
-        $shields = Shield::where("equipable_job_name",'like',"%$job%")->get();
-        $headgears = Headgear::where("equipable_job_name",'like',"%$job%")->get();
-        $bodygears = Bodygear::where("equipable_job_name",'like',"%$job%")->get();
-        $handgears = Handgear::where("equipable_job_name",'like',"%$job%")->get();
-        $waistgears = Waistgear::where("equipable_job_name",'like',"%$job%")->get();
-        $leggears = Leggear::where("equipable_job_name",'like',"%$job%")->get();
-        $feetgears = Feetgear::where("equipable_job_name",'like',"%$job%")->get();
-        $earringgears = Earringgear::where("equipable_job_name",'like',"%$job%")->get();
-        $necklacegears = Necklacegear::where("equipable_job_name",'like',"%$job%")->get();
-        $braceletgears = Braceletgear::where("equipable_job_name",'like',"%$job%")->get();
-        $ringgears = Ringgear::where("equipable_job_name",'like',"%$job%")->get();
+        $weapons = Weapon::where("equipable_job_name",'like',"%$job%")->orderBy('item_level','desc')->get();
+        $shields = Shield::where("equipable_job_name",'like',"%$job%")->orderBy('item_level','desc')->get();
+        $headgears = Headgear::where("equipable_job_name",'like',"%$job%")->orderBy('item_level','desc')->get();
+        $bodygears = Bodygear::where("equipable_job_name",'like',"%$job%")->orderBy('item_level','desc')->get();
+        $handgears = Handgear::where("equipable_job_name",'like',"%$job%")->orderBy('item_level','desc')->get();
+        $waistgears = Waistgear::where("equipable_job_name",'like',"%$job%")->orderBy('item_level','desc')->get();
+        $leggears = Leggear::where("equipable_job_name",'like',"%$job%")->orderBy('item_level','desc')->get();
+        $feetgears = Feetgear::where("equipable_job_name",'like',"%$job%")->orderBy('item_level','desc')->get();
+        $earringgears = Earringgear::where("equipable_job_name",'like',"%$job%")->orderBy('item_level','desc')->get();
+        $necklacegears = Necklacegear::where("equipable_job_name",'like',"%$job%")->orderBy('item_level','desc')->get();
+        $braceletgears = Braceletgear::where("equipable_job_name",'like',"%$job%")->orderBy('item_level','desc')->get();
+        $ringgears = Ringgear::where("equipable_job_name",'like',"%$job%")->orderBy('item_level','desc')->get();
         $foods = Food::all();
         $nulls = Nullable::all();
  
