@@ -18,9 +18,9 @@ class CreateWeaponsTable extends Migration
             $table->string('item_name');
             $table->string('location');
             $table->integer('item_level');
-            $table->integer('physical_p');
-            $table->integer('auto_attack');
-            $table->integer('attack_interval');
+            $table->float('physical_p');
+            $table->float('auto_attack');
+            $table->float('attack_interval');
             $table->integer('defense');
             $table->integer('m_defense');
             $table->string('equipable_job');

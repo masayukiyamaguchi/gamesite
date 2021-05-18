@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(UserSeeder::class);
         $this->call(ScreenShotsSeeder::class);
         $this->call(BlogsSeeder::class);
-        $this->call(Bodygear::class);
+        $this->call(Bodygears::class);
         $this->call(Braceletgears::class);
         $this->call(Earringgears::class);
         $this->call(Feetgears::class);

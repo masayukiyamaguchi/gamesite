@@ -36,8 +36,13 @@
         <select name="job" class="select_job" id="select_job">
         
             @foreach($jobs as $job)
-            <option value="{{$job['name']}}">{{$job['job_name']}}</option>
+                @if($job["id"]==1)
+                    <option value="{{$job['name']}}" disabled selected>{{$job['job_name']}}</option>
+                @else
+                    <option value="{{$job['name']}}">{{$job['job_name']}}</option>
+                @endif
             @endforeach
+            
 
         </select>
 
@@ -45,7 +50,11 @@
         <select name="race" class="select_race">
         
             @foreach($races as $race)
-                <option value="{{$race['name']}}">{{$race['race_clan']}}</option>
+                @if($race["id"]==1)
+                    <option value="{{$race['name']}}" disabled selected>{{$race['race_clan']}}</option>
+                @else    
+                    <option value="{{$race['name']}}">{{$race['race_clan']}}</option>
+                @endif
             @endforeach
 
         </select>
@@ -380,6 +389,10 @@
         </select>  
         </p>
     </div>
+    </div>
+
+    <div>
+        <button id="crt_spc">CRT特化</button>
     </div>
 
 </div>

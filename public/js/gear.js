@@ -1,4 +1,8 @@
 $(function() {
+    //ジョブが選択されるまで選択できない
+    $(".select_race").prop('disabled', true);
+    $(".select_mate").prop('disabled', true);
+    $(".select_mea").prop('disabled', true);
 
             // グローバル変数として定義
             //各装備の変数を用意
@@ -99,6 +103,11 @@ $(function() {
 
     // ジョブが選択されたら実行
     $("#select_job").change(function(){
+
+        // 種族、マテリア、食事の選択を可に
+        $(".select_race").prop('disabled', false);
+        $(".select_mate").prop('disabled', false);
+        $(".select_mea").prop('disabled', false);
 
         // 変更された内容を抽出
         var selectjob = $("#select_job").val();
@@ -760,8 +769,30 @@ $(function() {
     //ステータスを表示
     function displayStatus(chara,race,gear,job){
         //HPを計算,表示（装備vitと種族vit分のHPをジョブ基礎HPへプラス 竜騎士＋17）
-        var total_vit = gear["vit"] + race["vit"] + chara["vit"];
-        var hp_sum = parseInt(chara["hp"]  + total_vit * 22.1,10);
+
+        // ジョブによるHP補正値の計算
+        switch(job){
+
+            case "pld":
+            case "war":
+            case "drk":
+            case "gnb":
+                var rise_value = 31.5;
+                var cor_value = 0;              
+            break;
+
+            case "drg":
+                var rise_value = 22.1;
+                var cor_value = 17;               
+            break;            
+
+            default:
+                var rise_value = 22.1;
+                var cor_value = 0;
+            break;
+        }        
+        var total_vit = gear["vit"] + race["vit"] + chara["vit"] + cor_value;
+        var hp_sum = parseInt(chara["hp"]  + total_vit * rise_value);
         $("#st_hp").text(hp_sum);
 
         $("#st_mp").text(chara["mp"]);
@@ -773,9 +804,7 @@ $(function() {
         var total_dex = chara["dex"] + race["dex"];
         var total_mnd = chara["mnd"] + race["mnd"];
         var mainst = chara["main_status"];
-        
-        console.log(chara["main_status"]);
-        
+       
         // メインステによって場合分け
         switch(mainst){
             case "str":
@@ -801,31 +830,73 @@ $(function() {
         $("#st_vit").text(total_vit);
 
         $("#st_vap").text(chara["vap"]);
-        $("#st_aa").text(chara["aa"]);
-        $("#st_aatime").text(chara["aatime"]);
+        $("#st_aa").text(chara["aa"].toFixed(2));
+        $("#st_aatime").text(chara["aatime"].toFixed(2));
 
-
-        $("#st_crt").text(chara["crt"]);
+        var total_crt = gear["crt"] + chara["crt"];
+        $("#st_crt").text(total_crt);
         $("#st_crt_par").text();
         $("#st_crt_mag").text();
-        $("#st_dir").text(chara["dir"]);
+
+        var total_dir = gear["dir"] + chara["dir"];
+        $("#st_dir").text(total_dir);
         $("#st_dir_par").text();
         $("#st_dir_mag").text();
-        $("#st_det").text(chara["det"]);
+
+        var total_det = gear["det"] + chara["det"];
+        $("#st_det").text(total_det);
         $("#st_det_mag").text();
-        $("#st_sks").text(chara["sks"]);
+
+        var total_sks = gear["sks"] + chara["sks"];
+        $("#st_sks").text(total_sks);
         $("#st_sks_gcd").text();
         $("#st_sks_mag").text();
-        $("#st_sps").text(chara["sps"]);
+
+        var total_sps = gear["sps"] + chara["sps"];
+        $("#st_sps").text(total_sps);
         $("#st_sps_gcd").text();
         $("#st_sps_mag").text();
-        $("#st_ten").text(chara["ten"]);
+
+        var total_ten = gear["ten"] + chara["ten"];
+        $("#st_ten").text(total_ten);
         $("#st_ten_mag").text();
-        $("#st_pie").text(chara["pie"]);
+
+        var total_pie = gear["pie"] + chara["pie"];
+        $("#st_pie").text(total_pie);
         $("#st_pie_point").text();
+
         $("#score").text();
       
     }
+
+    $("#crt_spc").click(function(){
+        var max_crt_wep = maxCrt(weapons);
+        var max_crt_sld = maxCrt(shields);
+        var max_crt_hea = maxCrt(headgears);
+        var max_crt_bod = maxCrt(bodygears);
+        var max_crt_han = maxCrt(handgears);
+        var max_crt_wei = maxCrt(waistgears);
+        var max_crt_leg = maxCrt(leggears);
+        var max_crt_fee = maxCrt(feetgears);
+        var max_crt_ear = maxCrt(earringgears);
+        var max_crt_nec = maxCrt(necklacegears);
+        var max_crt_bra = maxCrt(braceletgears);
+        var max_crt_rin1 = maxCrt(ringgears);
+        var max_crt_rin2 = maxCrt(ringgears);
+
+
+        gears.forEach(function(gear){
+            var num = "max_crt_"+gear;
+            console.log(num);
+            $("#select_"+gear).val(max_crt_wep);
+            //サブステが変わらない。いい方法はないか？
+        })
+
+
+
+    });
+
+
 
 });
 
@@ -952,6 +1023,16 @@ function sbstColorRset(substatus,gears){
     })
 }
 
+//クリティカルが最大の装備をretrun
+function maxCrt(gears){
+    var max = gears[0]["id"];
+    gears.forEach(function(gear){
+        if(max["crt"] < gear["crt"]){
+            max = gear["id"];
+        }
+    })
+    return max;
+}
 
             
     
