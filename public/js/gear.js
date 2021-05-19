@@ -145,6 +145,8 @@ $(function() {
             ringgears = [];
             foods = [];
 
+            console.log(data);
+
             //マテリアの設定をリセット
             materiaReset();
             refreshSubStatus(allmaterias);
@@ -869,7 +871,9 @@ $(function() {
       
     }
 
+    // クリ特化装備のボタン
     $("#crt_spc").click(function(){
+        // クリティカルが最大値の装備を抽出
         var max_crt_wep = maxCrt(weapons);
         var max_crt_sld = maxCrt(shields);
         var max_crt_hea = maxCrt(headgears);
@@ -884,18 +888,26 @@ $(function() {
         var max_crt_rin1 = maxCrt(ringgears);
         var max_crt_rin2 = maxCrt(ringgears);
 
+        // 表示
+        $("#select_wep").val(max_crt_wep);
+        $("#select_sld").val(max_crt_sld);
+        $("#select_hea").val(max_crt_hea);
+        $("#select_bod").val(max_crt_bod);
+        $("#select_han").val(max_crt_han);
+        $("#select_wei").val(max_crt_wei);
+        $("#select_leg").val(max_crt_leg);
+        $("#select_fee").val(max_crt_fee);
+        $("#select_ear").val(max_crt_ear);
+        $("#select_nec").val(max_crt_nec);
+        $("#select_bra").val(max_crt_bra);
+        $("#select_rin1").val(max_crt_rin1);
+        $("#select_rin2").val(max_crt_rin2);
 
-        gears.forEach(function(gear){
-            var num = "max_crt_"+gear;
-            console.log(num);
-            $("#select_"+gear).val(max_crt_wep);
-            //サブステが変わらない。いい方法はないか？
-        })
+        // 装備の内容を入力
+        var test = $("#select_fee").val();
 
-
-
+                
     });
-
 
 
 });
@@ -1025,14 +1037,18 @@ function sbstColorRset(substatus,gears){
 
 //クリティカルが最大の装備をretrun
 function maxCrt(gears){
-    var max = gears[0]["id"];
+    var max = gears[0];
+    var max_id = gears[0]["id"];
     gears.forEach(function(gear){
-        if(max["crt"] < gear["crt"]){
-            max = gear["id"];
+        if(max["crt_status"] < gear["crt_status"]){
+            max_id = gear["id"];
         }
     })
-    return max;
+    return max_id;
 }
+
+
+
 
             
     

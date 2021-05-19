@@ -21,6 +21,7 @@ use App\Ringgear;
 use App\Food;
 use App\Geartable;
 use App\Nullable;
+use App\Tier;
 
 class GearController extends Controller
 {
@@ -61,6 +62,7 @@ class GearController extends Controller
         $ringgears = Ringgear::where("equipable_job_name",'like',"%$job%")->orderBy('item_level','desc')->get();
         $foods = Food::all();
         $nulls = Nullable::all();
+        $tiers = Tier::all();
  
 
         //jsonをデコードして配列を結合 jsonをphpで扱える変数に変換
@@ -79,7 +81,8 @@ class GearController extends Controller
             json_decode($braceletgears),
             json_decode($ringgears),
             json_decode($foods),
-            json_decode($nulls)
+            json_decode($nulls),
+            json_decode($tiers)
         );
 
         // 値を返す
