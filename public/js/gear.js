@@ -25,6 +25,12 @@ $(function() {
             //種族値、選択されていない場合を考慮し初期化
             var  race_cor = {str:0,dex:0,vit:0,int:0,mnd:0}
 
+            // スコア部分の制御変数
+            var score_num = 0;
+            for(var i=0; i<20; i++){
+                displayNone(".comparison_table"+i);
+            }
+
             //キャラの基礎値を挿れておく、メインステはジョブによって異なる
             var chara_status = {
                 hp:0,
@@ -144,8 +150,7 @@ $(function() {
             braceletgears = [];
             ringgears = [];
             foods = [];
-
-            console.log(data);
+            tiers = [];
 
             //マテリアの設定をリセット
             materiaReset();
@@ -218,7 +223,11 @@ $(function() {
                         
                     case "null":
                         nulls.push(data);
-                        break;                           
+                        break;
+                    
+                    case "tiers":
+                        tiers.push(data);
+                        break;    
 
                     default :
                         break;
@@ -335,7 +344,7 @@ $(function() {
             recalculation();
 
             // 最後に、ステータスの表示を更新(ジョブの基礎ステータス、種族の補正値、装備の合計ステータス、選択中のジョブ)
-            displayStatus(chara_status,race_cor,statusTotal,$("#select_job").val());
+            displayStatus(chara_status,race_cor,statusTotal,$("#select_job").val(),tiers);
 
 
             // ジョブごとに表示するサブステを変える
@@ -563,7 +572,7 @@ $(function() {
         foodSet();
         totalPoint();
         // STATUSの表示更新
-        displayStatus(chara_status,race_cor,statusTotal,$("#select_job").val());
+        displayStatus(chara_status,race_cor,statusTotal,$("#select_job").val(),tiers);
     });
 
 
@@ -595,7 +604,7 @@ $(function() {
         recalculation();
 
         // STATUSの表示更新
-        displayStatus(chara_status,race_cor,statusTotal,$("#select_job").val());
+        displayStatus(chara_status,race_cor,statusTotal,$("#select_job").val(),tiers);
 
         
     }
@@ -686,7 +695,7 @@ $(function() {
         // Ajaxリクエスト成功時の処理
         .done(function(race){            
             race_cor = race;
-            displayStatus(chara_status,race_cor,statusTotal,$("#select_job").val());
+            displayStatus(chara_status,race_cor,statusTotal,$("#select_job").val(),tiers);
         })
 
          // Ajaxリクエスト失敗時の処理
@@ -723,7 +732,7 @@ $(function() {
                 recalculation();
 
                 //SUTATUSの表示更新
-                displayStatus(chara_status,race_cor,statusTotal,$("#select_job").val());
+                displayStatus(chara_status,race_cor,statusTotal,$("#select_job").val(),tiers);
             });
         }
     })
@@ -769,7 +778,7 @@ $(function() {
     // gear:allstatus["total"]
     // job:$("#select_job").val()
     //ステータスを表示
-    function displayStatus(chara,race,gear,job){
+    function displayStatus(chara,race,gear,job,tiers){
         //HPを計算,表示（装備vitと種族vit分のHPをジョブ基礎HPへプラス 竜騎士＋17）
 
         // ジョブによるHP補正値の計算
@@ -811,15 +820,19 @@ $(function() {
         switch(mainst){
             case "str":
                 total_str += gear["main"];
+                var total_main = total_str;
                 break;
             case "int":
                 total_int += gear["main"];
+                var total_main = total_int;
                 break;
             case "dex":
                 total_dex += gear["main"];
+                var total_main = total_dex;
                 break;
             case "mnd":
                 total_mnd += gear["main"];
+                var total_main = total_mnd;
                 break;
             default :
                 break;
@@ -831,47 +844,134 @@ $(function() {
 
         $("#st_vit").text(total_vit);
 
+        // 武器の基礎値を表示
         $("#st_vap").text(chara["vap"]);
         $("#st_aa").text(chara["aa"].toFixed(2));
         $("#st_aatime").text(chara["aatime"].toFixed(2));
 
+        // 合計クリ値を表示
         var total_crt = gear["crt"] + chara["crt"];
         $("#st_crt").text(total_crt);
-        $("#st_crt_par").text();
-        $("#st_crt_mag").text();
 
+        // リストからクリ値の配列番号を見つける（検索ではなく順番に並んでるので初期を引いて番号を取得
+        var num = total_crt - 340;
+        var crt_par = tiers[num]["crt_chance"]*100;
+        $("#st_crt_par").text(crt_par.toFixed(1)+"%");
+        var crt_mag = tiers[num]["crt_damage"]*100;
+        $("#st_crt_mag").text(crt_mag.toFixed(1)+"%");
+        var crt_gain = tiers[num]["crt"];
+
+        // dirも同じ
         var total_dir = gear["dir"] + chara["dir"];
         $("#st_dir").text(total_dir);
-        $("#st_dir_par").text();
-        $("#st_dir_mag").text();
+        var num = total_dir - 340;
+        var dir_par = tiers[num]["dir_chance"]*100;
+        $("#st_dir_par").text(dir_par.toFixed(1)+"%");
+        $("#st_dir_mag").text("125.0%");
+        var dir_gain = tiers[num]["dir"];
 
+        // detも同じ
         var total_det = gear["det"] + chara["det"];
         $("#st_det").text(total_det);
-        $("#st_det_mag").text();
+        var num = total_det - 340;
+        var det_mag = tiers[num]["det"]*100;
+        $("#st_det_mag").text(det_mag.toFixed(1)+"%");
+        var det_gain = det_mag;
 
+        //sks
         var total_sks = gear["sks"] + chara["sks"];
         $("#st_sks").text(total_sks);
-        $("#st_sks_gcd").text();
-        $("#st_sks_mag").text();
+        var num = total_sks - 340;
+        var sks_gcd = tiers[num]["gcd"];
+        $("#st_sks_gcd").text(sks_gcd.toFixed(2));
+        var sks_mag = tiers[num]["ss_mod"]*100;
+        $("#st_sks_mag").text(sks_mag.toFixed(1)+"%");
+        var sks_gain = sks_mag;
 
+        //sps
         var total_sps = gear["sps"] + chara["sps"];
         $("#st_sps").text(total_sps);
-        $("#st_sps_gcd").text();
-        $("#st_sps_mag").text();
+        var num = total_sps - 340;
+        var sps_gcd = tiers[num]["gcd"];
+        $("#st_sps_gcd").text(sps_gcd.toFixed(2));
+        var sps_mag = tiers[num]["ss_mod"]*100;
+        $("#st_sps_mag").text(sps_mag.toFixed(1)+"%");
+        var sps_gain = sps_mag;
 
+        //ten
         var total_ten = gear["ten"] + chara["ten"];
         $("#st_ten").text(total_ten);
-        $("#st_ten_mag").text();
+        var num = total_ten - 340;
+        var ten_mag = tiers[num]["ten"]*100;
+        $("#st_ten_mag").text(ten_mag.toFixed(1)+"%");
+        switch(job){
+            case "pld":
+            case "war":
+            case "drk":
+            case "gnb":
+                var ten_gain = ten_mag;
+            break;
 
+            default :
+                var ten_gain = 1;
+            break;
+        }
+
+        //pie 
         var total_pie = gear["pie"] + chara["pie"];
         $("#st_pie").text(total_pie);
-        $("#st_pie_point").text();
+        var num = total_pie - 340;
+        var pie_point = tiers[num]["pie"];
+        $("#st_pie_point").text(pie_point+"/3s");
 
-        $("#score").text();
+        // スコア
+        // メインステ
+        var num = total_main - 340
+        switch(job){
+            case "pld":
+            case "war":
+            case "drk":
+            case "gnb":
+                var main_gain = tiers[num]["T_AP"];
+                var mag = 1;
+            break;
+
+            default :
+                var main_gain = tiers[num]["DH_AP"];
+                var mag = 100;
+            break;
+        }
+
+        // スキスピ、スペスピは値が大きい方をgainとして採用
+        if(sks_gain > sps_gain){
+            var ss_gain = sks_gain;
+        }else{
+            var ss_gain = sps_gain;
+        }        
+        
+        // ダメージ倍率を乗算
+        var score = main_gain * crt_gain * dir_gain * det_gain　* ten_gain * mag;
+        var score_fix = (score/100).toFixed(1);
+        $("#score").text(score_fix);
+
+        // スコア差の計算
+        var comparison_score = ($("#score0").text() - score_fix).toFixed(1)
+        $("#comparison0").text(comparison_score);
       
     }
 
-    // クリ特化装備のボタン
+    // スコア保存
+    $("#comparison").click(function(){
+        // スコア差 行の表示
+        displayBlock(".comparison_table"+score_num);
+        // スコアの表示        
+        $("#score"+score_num).text($("#score").text());
+        $("#comparison"+score_num).text(0);
+
+        score_num++;
+    });
+
+    // クリ特化装備のボタン(調整中)
     $("#crt_spc").click(function(){
         // クリティカルが最大値の装備を抽出
         var max_crt_wep = maxCrt(weapons);
@@ -905,7 +1005,6 @@ $(function() {
 
         // 装備の内容を入力
         var test = $("#select_fee").val();
-
                 
     });
 

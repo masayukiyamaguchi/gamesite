@@ -549,13 +549,13 @@
             <td class="sub_l_table">信仰：</td>
             <td class="sub_r_table" id="st_pie"></td>
             <td class="sub_l_table">MP回復量：</td>
-            <td class="sub_r_table" id="st_pie_point">0/3s</td>
+            <td class="sub_r_table" id="st_pie_point"></td>
         </tr>
 
     </table>
     
     <p>
-        <div class="sample-box-13" id="score">3254</div>        
+        <div class="sample-box-13" id="score"></div>        
     </p>
 
 </div>
@@ -569,7 +569,7 @@
     </div>
 
     <div>
-        <button>現在のスコアを保存する</button>
+        <button id="comparison">現在のスコアを保存する</button>
     </div>
 
     <table class="comparison_table">
@@ -579,25 +579,15 @@
             <th></th>        
         </tr>
         
-        <tr>
-            <td>3254</td>
-            <td>-355</td>
+        @for($i=0;$i<20;$i++)
+        <tr class="comparison_table{{$i}}">
+            <td id="score{{$i}}"></td>
+            <td id="comparison{{$i}}"></td>
             <td><button class="reflect_button">反映</button><button class="delete_button">×</button></td>        
         </tr>
-
-        <tr>
-            <td>3254</td>
-            <td>-355</td>
-            <td><button class="reflect_button">反映</button><button class="delete_button">×</button></td>        
-        </tr>
-
-        <tr>
-            <td>3254</td>
-            <td>-355</td>
-            <td><button class="reflect_button">反映</button><button class="delete_button">×</button></td>        
-        </tr>
-
-
+        @endfor
+        
+      
 
     </table>
 
