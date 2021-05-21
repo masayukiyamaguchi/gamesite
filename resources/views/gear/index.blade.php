@@ -391,8 +391,12 @@
     </div>
     </div>
 
-    <div>
-        <button id="crt_spc">CRT特化</button>
+    <div class="spc_div">
+        <button id="crt_spc" disabled selected>CRT特化</button>
+        <button id="sps_spc" disabled selected>SPS特化</button>
+        <button id="ss_spc" disabled selected>SS除外</button>
+        <button id="ten_spc" disabled selected>不屈除外</button>
+        <button id="pie_spc" disabled selected>信仰除外</button>
     </div>
 
 </div>
@@ -569,8 +573,10 @@
     </div>
 
     <div>
-        <button id="comparison">現在のスコアを保存する</button>
+        <button id="comparison">現在のスコアを保存する</button><button id="retun_delete">削除戻す</button>
     </div>
+
+    <div class="save_limit"><span>保存は100回までです</span></div>
 
     <table class="comparison_table">
         <tr>
@@ -579,11 +585,11 @@
             <th></th>        
         </tr>
         
-        @for($i=0;$i<20;$i++)
-        <tr class="comparison_table{{$i}}">
+        @for($i=0;$i<100;$i++)
+        <tr class="comparison_table{{$i}} display_none">
             <td id="score{{$i}}"></td>
             <td id="comparison{{$i}}"></td>
-            <td><button class="reflect_button">反映</button><button class="delete_button">×</button></td>        
+            <td><button class="reflect_button">反映</button><button value={{$i}} class="delete_button">×</button></td>        
         </tr>
         @endfor
         

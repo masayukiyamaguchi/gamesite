@@ -25,11 +25,10 @@ $(function() {
             //種族値、選択されていない場合を考慮し初期化
             var  race_cor = {str:0,dex:0,vit:0,int:0,mnd:0}
 
-            // スコア部分の制御変数
+            // スコア保存の変数
             var score_num = 0;
-            for(var i=0; i<20; i++){
-                displayNone(".comparison_table"+i);
-            }
+            var delete_num= [];
+
 
             //キャラの基礎値を挿れておく、メインステはジョブによって異なる
             var chara_status = {
@@ -117,6 +116,51 @@ $(function() {
 
         // 変更された内容を抽出
         var selectjob = $("#select_job").val();
+
+        // 選ばれたジョブによって特化装備ボタンを制御
+
+        switch(selectjob){
+            case "pld":
+            case "war":
+            case "drk":            
+            case "gnb":
+                $("#crt_spc").prop('disabled', false);
+                $("#sps_spc").prop('disabled', true);
+                $("#ss_spc").prop('disabled', false);
+                $("#ten_spc").prop('disabled', false);
+                $("#pie_spc").prop('disabled', true);
+                break;
+
+            case "whm":
+            case "sch":
+            case "ast":
+                $("#crt_spc").prop('disabled', false);
+                $("#sps_spc").prop('disabled', true);
+                $("#ss_spc").prop('disabled', false);
+                $("#ten_spc").prop('disabled', true);
+                $("#pie_spc").prop('disabled', false);
+                break;
+            
+            case "blm" :
+                $("#crt_spc").prop('disabled', false);
+                $("#sps_spc").prop('disabled', false);
+                $("#ss_spc").prop('disabled', true);
+                $("#ten_spc").prop('disabled', true);
+                $("#pie_spc").prop('disabled', true);
+                break;
+            
+            default:
+                $("#crt_spc").prop('disabled', false);
+                $("#sps_spc").prop('disabled', true);
+                $("#ss_spc").prop('disabled', false);
+                $("#ten_spc").prop('disabled', true);
+                $("#pie_spc").prop('disabled', true);
+                break;
+
+        }
+
+
+
         // 非同期処理
         $.ajaxSetup({
             headers: {
@@ -955,27 +999,52 @@ $(function() {
         $("#score").text(score_fix);
 
         // スコア差の計算
-        var comparison_score = ($("#score0").text() - score_fix).toFixed(1)
-        $("#comparison0").text(comparison_score);
-      
+        for(i=0;i<score_num;i++){
+            var comparison_score = ($("#score"+i).text() - score_fix).toFixed(1)
+            $("#comparison"+i).text(comparison_score);
+        }
     }
 
     // スコア保存
     $("#comparison").click(function(){
-        // スコア差 行の表示
-        displayBlock(".comparison_table"+score_num);
-        // スコアの表示        
-        $("#score"+score_num).text($("#score").text());
-        $("#comparison"+score_num).text(0);
-
+            
+        if(score_num>=100){
+            $(".save_limit").css("display","block");
+        }else{
+            // スコア差 行の表示
+            displayBlock(".comparison_table"+score_num);  
+            // スコアの表示        
+            $("#score"+score_num).text($("#score").text());
+            $("#comparison"+score_num).text(0);
         score_num++;
+        }
     });
 
-    // クリ特化装備のボタン(調整中)
+    // スコア削除
+    $(".delete_button").click(function(){
+        var num = $(this).val();
+        console.log(num);
+        displayNone(".comparison_table"+num);
+        delete_num.push(num);
+        console.log(delete_num);
+    })
+
+    // 削除を戻す
+    $("#retun_delete").click(function(){
+        num = delete_num[delete_num.length-1];
+        displayBlock(".comparison_table"+num);
+        delete_num.pop();
+    })
+
+
+
+    // クリ特化装備のボタン
     $("#crt_spc").click(function(){
         // クリティカルが最大値の装備を抽出
         var max_crt_wep = maxCrt(weapons);
-        var max_crt_sld = maxCrt(shields);
+        if($("#select_job").val()=="pld"){
+           var max_crt_sld = maxCrt(shields);
+        }
         var max_crt_hea = maxCrt(headgears);
         var max_crt_bod = maxCrt(bodygears);
         var max_crt_han = maxCrt(handgears);
@@ -990,7 +1059,9 @@ $(function() {
 
         // 表示
         $("#select_wep").val(max_crt_wep);
-        $("#select_sld").val(max_crt_sld);
+        if($("#select_job").val()=="pld"){
+            $("#select_sld").val(max_crt_sld);
+        }
         $("#select_hea").val(max_crt_hea);
         $("#select_bod").val(max_crt_bod);
         $("#select_han").val(max_crt_han);
@@ -1003,13 +1074,122 @@ $(function() {
         $("#select_rin1").val(max_crt_rin1);
         $("#select_rin2").val(max_crt_rin2);
 
-        // 装備の内容を入力
-        var test = $("#select_fee").val();
+
+        // 装備が変更されたときと同じ動作を実行
+        gears.forEach(function(gear){
+            $("#select_"+gear).change();
+        });
                 
     });
 
+    // sps特化装備のボタン
+    $("#sps_spc").click(function(){
+        // SS最大値の装備を抽出
+        var max_sps_wep = maxSps(weapons);
+        var max_sps_hea = maxSps(headgears);
+        var max_sps_bod = maxSps(bodygears);
+        var max_sps_han = maxSps(handgears);
+        var max_sps_wei = maxSps(waistgears);
+        var max_sps_leg = maxSps(leggears);
+        var max_sps_fee = maxSps(feetgears);
+        var max_sps_ear = maxSps(earringgears);
+        var max_sps_nec = maxSps(necklacegears);
+        var max_sps_bra = maxSps(braceletgears);
+        var max_sps_rin1 = maxSps(ringgears);
+        var max_sps_rin2 = maxSps(ringgears);
 
-});
+        // 表示
+        $("#select_wep").val(max_sps_wep);
+        $("#select_hea").val(max_sps_hea);
+        $("#select_bod").val(max_sps_bod);
+        $("#select_han").val(max_sps_han);
+        $("#select_wei").val(max_sps_wei);
+        $("#select_leg").val(max_sps_leg);
+        $("#select_fee").val(max_sps_fee);
+        $("#select_ear").val(max_sps_ear);
+        $("#select_nec").val(max_sps_nec);
+        $("#select_bra").val(max_sps_bra);
+        $("#select_rin1").val(max_sps_rin1);
+        $("#select_rin2").val(max_sps_rin2);
+
+
+        // 装備が変更されたときと同じ動作を実行
+        gears.forEach(function(gear){
+            $("#select_"+gear).change();
+        });
+                
+    });
+
+    // SS排除装備のボタン
+    $("#ss_spc").click(function(){
+        switch($("#select_job").val()){
+            case "blm":
+            case "smn":
+            case "rdm":
+            case "blu":
+            case "whm":
+            case "sch":
+            case "ast":                    
+                sbst = "sps";
+            break;
+
+            default :
+                sbst = "sks";
+            break;
+        }
+        minstatus(sbst);
+    });
+
+    // 不屈排除ボタン
+    $("#ten_spc").click(function(){
+        minstatus("ten");
+    });
+
+    // 信仰排除ボタン
+    $("#pie_spc").click(function(){
+        minstatus("pie");
+    });
+
+    // sbst排除実行関数
+    function minstatus(sbst){
+        // sbst最小値の装備を抽出
+        var min_wep = minsbst(weapons,sbst);
+        var min_hea = minsbst(headgears,sbst);
+        var min_bod = minsbst(bodygears,sbst);
+        var min_han = minsbst(handgears,sbst);
+        var min_wei = minsbst(waistgears,sbst);
+        var min_leg = minsbst(leggears,sbst);
+        var min_fee = minsbst(feetgears,sbst);
+        var min_ear = minsbst(earringgears,sbst);
+        var min_nec = minsbst(necklacegears,sbst);
+        var min_bra = minsbst(braceletgears,sbst);
+        var min_rin1 = minsbst(ringgears,sbst);
+        var min_rin2 = minsbst(ringgears,sbst);
+        // 表示
+        $("#select_wep").val(min_wep);
+        $("#select_hea").val(min_hea);
+        $("#select_bod").val(min_bod);
+        $("#select_han").val(min_han);
+        $("#select_wei").val(min_wei);
+        $("#select_leg").val(min_leg);
+        $("#select_fee").val(min_fee);
+        $("#select_ear").val(min_ear);
+        $("#select_nec").val(min_nec);
+        $("#select_bra").val(min_bra);
+        $("#select_rin1").val(min_rin1);
+        $("#select_rin2").val(min_rin2);
+        
+        // 装備が変更されたときと同じ動作を実行
+        gears.forEach(function(gear){
+            $("#select_"+gear).change();
+        });
+    }
+
+
+
+
+
+});//jQuaryココまで
 
 
 //プルダウンリストの作成関数
@@ -1144,6 +1324,31 @@ function maxCrt(gears){
         }
     })
     return max_id;
+}
+
+//SPSが最大の装備をretrun
+function maxSps(gears){
+    var max = gears[0];
+    var max_id = gears[0]["id"];
+    gears.forEach(function(gear){
+        if(max["sps_status"] < gear["sps_status"]){
+            max_id = gear["id"];
+        }
+    })
+    return max_id;
+}
+
+
+//sbstが最小の装備をretrun
+function minsbst(gears,sbst){
+    var min = gears[0];
+    var min_id = gears[0]["id"];
+    gears.forEach(function(gear){
+        if(min[sbst+"_status"] > gear[sbst+"_status"]){
+            min_id = gear["id"];
+        }
+    })
+    return min_id;
 }
 
 

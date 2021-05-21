@@ -683,13 +683,22 @@ h3{
     font-weight: bold;
 }
 
-/* スコア保存 */
-.comparison_table0{
-
+.save_limit{
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-bottom: -25px;
+    color: red;
+    font-weight: bold;
+    display: none;
 }
-.comparison_table1{
 
+#retun_delete{
+    width: 80px;
+    margin-left: 10px;
 }
-.comparison_table2{
 
+.spc_div button{
+    margin-left: 10px;
 }
+
+
