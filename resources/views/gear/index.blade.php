@@ -578,7 +578,7 @@
 
     <div class="save_limit"><span>保存は100回までです</span></div>
 
-    <table class="comparison_table">
+    <table id="comparison_table">
         <tr>
             <th>SCORE</th>
             <th>現スコアとの差</th>
@@ -589,7 +589,7 @@
         <tr class="comparison_table{{$i}} display_none">
             <td id="score{{$i}}"></td>
             <td id="comparison{{$i}}"></td>
-            <td><button class="reflect_button">反映</button><button value={{$i}} class="delete_button">×</button></td>        
+            <td><button value={{$i}} class="reflect_button">反映</button><button value={{$i}} class="delete_button">×</button></td>        
         </tr>
         @endfor
         

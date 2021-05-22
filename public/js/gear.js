@@ -28,7 +28,7 @@ $(function() {
             // スコア保存の変数
             var score_num = 0;
             var delete_num= [];
-
+            var save_data = [];
 
             //キャラの基礎値を挿れておく、メインステはジョブによって異なる
             var chara_status = {
@@ -117,8 +117,14 @@ $(function() {
         // 変更された内容を抽出
         var selectjob = $("#select_job").val();
 
-        // 選ばれたジョブによって特化装備ボタンを制御
+        // スコア保存をリセット
+        score_num = 0;
+        delete_num = [];
+        save_data = [];
+        $("[class^='comparison_table']").addClass("display_none");
 
+
+        // 選ばれたジョブによって特化装備ボタンを制御
         switch(selectjob){
             case "pld":
             case "war":
@@ -719,6 +725,9 @@ $(function() {
 
     // 種族が選択されたら実行
     $(".select_race").change(function(){
+        // アラートの枠色を削除
+        $(".select_race").removeClass("alart_boder");
+
         // 変更された内容を抽出        
         var selectrace = $(".select_race").val();
         // 非同期処理
@@ -1007,31 +1016,82 @@ $(function() {
 
     // スコア保存
     $("#comparison").click(function(){
-            
-        if(score_num>=100){
-            $(".save_limit").css("display","block");
+
+        // 種族は必ず選択させる（ajaxでバグが出るので、、、）
+        console.log($(".select_race").val());
+        if($(".select_race").val()==null){
+            $(".select_race").addClass("alart_boder");
+            alert("種族を選択してください");
         }else{
-            // スコア差 行の表示
-            displayBlock(".comparison_table"+score_num);  
-            // スコアの表示        
-            $("#score"+score_num).text($("#score").text());
-            $("#comparison"+score_num).text(0);
-        score_num++;
-        }
+
+            if(score_num>=100){
+                $(".save_limit").css("display","block");
+            }else{
+                // スコア差 行の表示
+                displayBlock(".comparison_table"+score_num);  
+                // スコアの表示        
+                $("#score"+score_num).text($("#score").text());
+                $("#comparison"+score_num).text(0);
+            score_num++;
+            }
+
+            // 装備内容の保存
+            var save_array = [];
+            save_array.push($("#select_job").val());
+            save_array.push($(".select_race").val());
+            gears.forEach(function(gear){
+                save_array.push($("#select_"+gear).val());
+            });
+            save_array.push($("#select_foo").val());
+            gears.forEach(function(gear){
+                for(i=1;i<=5;i++){
+                    save_array.push($(".select_"+gear+"mate"+i).val());
+                }
+            })
+            save_data.push(save_array);
+
+        } //else終わり
+    
+    });
+
+    // 反映
+    $(".reflect_button").click(function(){
+
+        var j = 0;
+        var num = $(this).val();
+        $("#select_job").val(save_data[num][j++]);        
+        $(".select_race").val(save_data[num][j++]);
+            $(".select_race").change();
+        gears.forEach(function(gear){
+            $("#select_"+gear).val(save_data[num][j++]);
+            $("#select_"+gear).change();
+        });    
+        $("#select_foo").val(save_data[num][j++]); 
+        $("#select_foo").change();
+        gears.forEach(function(gear){
+            for(i=1;i<=5;i++){
+                $(".select_"+gear+"mate"+i).val(save_data[num][j++]);
+            }
+            $(".select_"+gear+"mate1").change();
+        }) 
+
     });
 
     // スコア削除
     $(".delete_button").click(function(){
+        // valueを特定
         var num = $(this).val();
-        console.log(num);
+        // 特定したスコアを非表示
         displayNone(".comparison_table"+num);
+        // 削除したvalueの順番を覚えておく
         delete_num.push(num);
-        console.log(delete_num);
     })
 
     // 削除を戻す
     $("#retun_delete").click(function(){
+        // 削除した順番の最後のvalueを取得
         num = delete_num[delete_num.length-1];
+        // 表示する
         displayBlock(".comparison_table"+num);
         delete_num.pop();
     })

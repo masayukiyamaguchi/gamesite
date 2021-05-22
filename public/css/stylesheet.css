@@ -363,6 +363,11 @@ h3{
     width: 200px;
 }
 
+.alart_boder{
+    border-color: red;
+    border-width: 2px;
+}
+
 /* 色 */
 .wep_bg_pro{
     background-color: rgb(255, 226, 226);
@@ -616,19 +621,19 @@ h3{
     top: -1em;
 }
 
-.comparison_table{
+#comparison_table{
     margin-top: 30px;
     background-color: rgb(199, 219, 255);
 
 }
 
-.comparison_table th{
+#comparison_table th{
     width: 33%;
     text-align: center;
     background-color: rgb(160, 193, 255);
 }
 
-.comparison_table tr td{
+#comparison_table tr td{
     text-align: center;
 }
 
