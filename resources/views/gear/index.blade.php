@@ -4,8 +4,15 @@
 @section("header")
   <!-- ここの位置であってるっけ？ -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="{{asset('/js/gear.js') }}"></script>
+
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <!-- jQuery UI -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+ 
+  <script src="{{asset('/js/gear.js') }}"></script> 
+  
   
 @endsection
 
@@ -598,16 +605,51 @@
     </table>
 
 
-
-
-
-
-
-
+ 
 </div>
 
 
 <div class="clear">
+
+
+<table>
+<thead>
+  <tr>
+    <th>No.</th>
+    <th>タイトル</th>
+    <th>発売日</th>
+  </tr>
+</thead>
+<!--tbodyにID属性を指定します-->
+<tbody id="sortdata">
+  <tr>
+    <th>1</th>
+    <td>スプラトゥーン２</td>
+    <td>2017年7月21日</td>
+  </tr>
+  <tr>
+    <th>2</th>
+    <td>スーパーマリオ・オデッセイ</td>
+    <td>2017年10月27日</td>
+  </tr>
+  <tr>
+    <th>3</th>
+    <td>アームズ</td>
+    <td>2017年6月16日</td>
+  </tr>
+  <tr>
+    <th>4</th>
+    <td>1-2-Switch</td>
+    <td>2017年3月3日</td>
+  </tr>
+  <tr>
+    <th>5</th>
+    <td>モンスターハンター XX</td>
+    <td>2017年8月25日</td>
+  </tr>
+</tbody>
+</table>
+
 
 
 

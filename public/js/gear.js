@@ -1,4 +1,5 @@
 $(function() {
+    
     //ジョブが選択されるまで選択できない
     $(".select_race").prop('disabled', true);
     $(".select_mate").prop('disabled', true);
@@ -1245,11 +1246,12 @@ $(function() {
         });
     }
 
-
-
-
+    $("#sortdata").sortable();
 
 });//jQuaryココまで
+
+
+
 
 
 //プルダウンリストの作成関数
