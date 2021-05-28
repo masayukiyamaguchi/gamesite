@@ -1,4 +1,6 @@
 $(function() {
+
+    // $( ".sortable" ).sortable();
     
     //ジョブが選択されるまで選択できない
     $(".select_race").prop('disabled', true);
@@ -1019,7 +1021,6 @@ $(function() {
     $("#comparison").click(function(){
 
         // 種族は必ず選択させる（ajaxでバグが出るので、、、）
-        console.log($(".select_race").val());
         if($(".select_race").val()==null){
             $(".select_race").addClass("alart_boder");
             alert("種族を選択してください");
@@ -1077,6 +1078,43 @@ $(function() {
         }) 
 
     });
+
+    // 保存した内容を確認できる
+    $(".reflect_button").hover(
+    function(){
+        val = $(this).val();
+        displayBlock(".comparison_list_div"+val);
+
+        var j = 0;
+        var num = $(this).val();
+        j++;        
+        j++;
+        gears.forEach(function(gear){
+            //ジョブ装備の配列を取得
+            var wep = gears_Select(gear);
+            // 装備を1つ特定
+            var result = $.grep(wep,
+                function(obj,idx){
+                  return (obj.id == save_data[num][j]);  //kindが'野菜'を抽出する場合
+                }
+              );
+            j++;
+            $("#comparison_list_"+gear+"_"+val).text(result[0]["item_name"]);
+        });    
+        j++; 
+        // gears.forEach(function(gear){
+        //     for(i=1;i<=5;i++){
+        //         $(".select_"+gear+"mate"+i).val(save_data[num][j++]);
+        //     }
+        //     $(".select_"+gear+"mate1").change();
+        // })
+        
+    },
+    function(){
+        val = $(this).val();
+        displayNone(".comparison_list_div"+val);
+    });
+
 
     // スコア削除
     $(".delete_button").click(function(){
@@ -1246,10 +1284,111 @@ $(function() {
         });
     }
 
-    $("#sortdata").sortable();
+    // 自動マテリア装着
+    $("#spc_mate_button").click(function(){
+
+        // ジョブ情報を取得
+        job = $("#select_job").val();
+        
+        // マテリアの優先順位を獲得
+        sbst = ["crt","dir","det"];
+
+        // マテリア装着を各装備で
+        gears.forEach(function(gear){
+            if(job=="pld"){
+                auto_materia(gear,sbst);
+            }else{
+                if(gear != "sld"){
+                    auto_materia(gear,sbst);
+                }
+            }
+        })
+        $(".select_mate").change();
+    })
+
+    // マテリア自動装着（関数）
+    function auto_materia(gear,sbst){
+
+        mate_num = materia_Count(gear);
+
+        var diff_00 = sbst_limit[gear]-allstatus[gear][sbst[0]];
+        var diff_01 = sbst_limit[gear]-allstatus[gear][sbst[1]];
+
+        // マテリア分回す
+        for(var i=1;i<=mate_num;i++){
+            // マテリアの箇所により補正値を計算
+            if(i<3){
+                sub_limit = 60;
+                limit_line = 60;
+            }else{
+                sub_limit = 20;
+                limit_line = 20;
+            }            
+            // リミットによってつけるマテリアを判定
+            if(diff_00 >= limit_line){
+                $(".select_"+gear+"mate"+i).val(sbst[0]);
+                diff_00 -= sub_limit;　//次の判定にはつけた分を差し引いて計算
+            }else if(diff_01 >= limit_line){
+                $(".select_"+gear+"mate"+i).val(sbst[1]);
+                diff_01 -= sub_limit;
+            }else{
+                $(".select_"+gear+"mate"+i).val(sbst[2]);
+            }
+        }        
+    }
+
+    // 現在表示の装備のマテリア装着可能数を返す
+    function materia_Count(gear_name){
+        var sum =0;
+
+        // リストを検索
+        gears_list = gears_Select(gear_name);
+        // 選択されている武器を特定
+        var wep = gears_list.find(function(item){
+            return item["id"] == $("#select_"+gear_name).val();            
+        });
+        // 武器のマテリア装着数を計算リターン
+        for(i=1;i<=5;i++){
+            sum += wep["materia0"+i];
+        }
+        return sum;         
+    }
+
+    // gearによって装備のリストを返却
+    function gears_Select(gear){
+        switch(gear){
+            case "wep":
+                return weapons;
+            case "sld":
+                return shields;
+            case "hea":
+                return headgears;
+            case "bod":
+                return bodygears;
+            case "han":
+                return handgears;
+            case "wei":
+                return waistgears;
+            case "leg":
+                return leggears;
+            case "fee":
+                return feetgears;
+            case "ear":
+                return earringgears;
+            case "nec":
+                return necklacegears;
+            case "bra":
+                return braceletgears;
+            case "rin1":
+                return ringgears;
+            case "rin2":
+                return ringgears;           
+        }
+    }
+
+    
 
 });//jQuaryココまで
-
 
 
 

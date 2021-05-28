@@ -706,4 +706,41 @@ h3{
     margin-left: 10px;
 }
 
+#spc_mate_button{
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+
+.spc_mate_table{
+    display: inline;
+    position: relative;
+    top: 6px;
+    left: 5px;
+}
+
+.spc_mate_table td{
+    border: 1px red solid;
+    width: 60px; 
+
+}
+
+[class^="comparison_list_div"]{
+    background-color: blue;
+    width: 400px;
+    position: absolute;
+    top: 0;
+    right: 90px;
+}
+
+[class^="comparison_list_p"]{
+    margin-bottom: -5px;
+    color: white;
+    text-align: left;
+    padding-left: 10px;
+}
+
+#comparison_button{
+    position: relative;
+}
 

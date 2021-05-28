@@ -7,12 +7,14 @@
 
   <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+
   <!-- jQuery UI -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
- 
-  <script src="{{asset('/js/gear.js') }}"></script> 
-  
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+  <script src="{{asset('/js/gear.js') }}"></script>    
   
 @endsection
 
@@ -406,6 +408,23 @@
         <button id="pie_spc" disabled selected>信仰除外</button>
     </div>
 
+    <button id="spc_mate_button">マテリア適応</button>
+
+    <span class="spc_mate_div">
+        <table class="spc_mate_table">
+            <tr>
+                <td>CRT</td>
+                <td>DIR</td>
+                <td>DET</td>
+                <td>SS</td>
+                <td>TEN</td>
+                <td>PIE</td>
+            </tr>        
+        </table>
+    </span>
+
+
+
 </div>
 
 
@@ -596,75 +615,60 @@
         <tr class="comparison_table{{$i}} display_none">
             <td id="score{{$i}}"></td>
             <td id="comparison{{$i}}"></td>
-            <td><button value={{$i}} class="reflect_button">反映</button><button value={{$i}} class="delete_button">×</button></td>        
+            <td>
+            <div id="comparison_button">
+                <button value={{$i}} class="reflect_button">反映</button>
+                <button value={{$i}} class="delete_button">×</button>
+                <div class="comparison_list_div{{$i}} display_none">
+                    <p class="comparison_list_p">武器:<span id="comparison_list_wep_{{$i}}">test</span></p>
+                    <p class="comparison_list_p">盾　:<span id="comparison_list_sld_{{$i}}">test</span></p>
+                    <p class="comparison_list_p">頭　:<span id="comparison_list_hea_{{$i}}">test</span></p>
+                    <p class="comparison_list_p">体　:<span id="comparison_list_bod_{{$i}}">test</span></p>
+                    <p class="comparison_list_p">手　:<span id="comparison_list_han_{{$i}}">test</span></p>
+                    <p class="comparison_list_p">腰　:<span id="comparison_list_wei_{{$i}}">test</span></p>
+                    <p class="comparison_list_p">脚　:<span id="comparison_list_leg_{{$i}}">test</span></p>
+                    <p class="comparison_list_p">足　:<span id="comparison_list_fee_{{$i}}">test</span></p>
+                    <p class="comparison_list_p">耳　:<span id="comparison_list_ear_{{$i}}">test</span></p>
+                    <p class="comparison_list_p">首　:<span id="comparison_list_nec_{{$i}}">test</span></p>
+                    <p class="comparison_list_p">腕　:<span id="comparison_list_bra_{{$i}}">test</span></p>
+                    <p class="comparison_list_p">指　:<span id="comparison_list_rin1_{{$i}}">test</span></p>
+                    <p class="comparison_list_p">指　:<span id="comparison_list_rin2_{{$i}}">test</span></p>
+                </div>                
+            </div>       
+            </td>        
         </tr>
-        @endfor
-        
+        @endfor       
       
 
     </table>
 
 
+
+
+
+
  
 </div>
-
-
 <div class="clear">
 
 
-<table>
-<thead>
-  <tr>
-    <th>No.</th>
-    <th>タイトル</th>
-    <th>発売日</th>
-  </tr>
-</thead>
-<!--tbodyにID属性を指定します-->
-<tbody id="sortdata">
-  <tr>
-    <th>1</th>
-    <td>スプラトゥーン２</td>
-    <td>2017年7月21日</td>
-  </tr>
-  <tr>
-    <th>2</th>
-    <td>スーパーマリオ・オデッセイ</td>
-    <td>2017年10月27日</td>
-  </tr>
-  <tr>
-    <th>3</th>
-    <td>アームズ</td>
-    <td>2017年6月16日</td>
-  </tr>
-  <tr>
-    <th>4</th>
-    <td>1-2-Switch</td>
-    <td>2017年3月3日</td>
-  </tr>
-  <tr>
-    <th>5</th>
-    <td>モンスターハンター XX</td>
-    <td>2017年8月25日</td>
-  </tr>
-</tbody>
-</table>
+
+
+<ul class="sortable">
+<li>Item 1</li>
+<li>Item 2</li>
+<li>Item 3</li>
+<li>Item 4</li>
+<li>Item 5</li>
+</ul>
+
 
 
 
 
 
 </div>
-
-
-
-
 </div>
-
-
-
-
-
 @endsection
 
 
