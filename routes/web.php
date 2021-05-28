@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//トップte
+//トップ
 Route::get('/', "IndexController@index")->name("/");
 
 //アバウト
