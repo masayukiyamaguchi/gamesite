@@ -42,9 +42,9 @@ Route::post('/contact/form/',"FormColntroller@index")->name("contact.form");
 Route::get('/contact/lists/',"ContactLists@index")->name("contactlists");
 
 //装備シミュレーター
-Route::get('/gear/',"GearController@index")->name("gear");
-Route::get('/gear/selectjob/',"GearController@selectjob")->name("gearselectjob");
-Route::get('/gear/selectrace/',"GearController@selectrace")->name("gearselectrace");
+Route::get('/gear',"GearController@index")->name("gear");s
+Route::get('/gear/selectjob',"GearController@selectjob")->name("gearselectjob");
+Route::get('/gear/selectrace',"GearController@selectrace")->name("gearselectrace");
 
 
 
