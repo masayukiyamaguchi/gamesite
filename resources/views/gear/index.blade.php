@@ -28,7 +28,7 @@
 <a href="{{route('about')}}"><li><font color ="gray">ABOUT</font></li></a>
 <a href="{{route('screenshot')}}"><li>SCREEN SHOT</li></a>
 <a href="{{route('blog')}}"><li>BLOG</li></a>
-<a href="{{route('contact')}}"><li>CONTACT</li></a>
+<a href="{{route('contact')}}"><li>CONTAC</li></a>
 @endsection
 
 
