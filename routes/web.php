@@ -48,7 +48,7 @@ Route::get('/gear/selectrace/',"GearController@selectrace")->name("gearselectrac
 
 
 
-//テスト
+//テスト用
 Route::get('/test/',"TestController@test");
 Route::get('/jquerytest/',"TestController@jquery");
 
